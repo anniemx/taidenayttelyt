@@ -11,7 +11,13 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_reviews = reviews.get_reviews()
+    return render_template("index.html", reviews=all_reviews)
+
+@app.route("/review/<int:review_id>")
+def show_review(review_id):
+    review = reviews.get_review(review_id)
+    return render_template("show_review.html", review=review)
 
 @app.route("/new_review")
 def new_review():
