@@ -36,6 +36,24 @@ def create_review():
     reviews.add_review(title, place, time, location, description, evaluation, user_id)
     return redirect("/")
 
+@app.route("/edit_review/<int:review_id>")
+def edit_review(review_id):
+    review = reviews.get_review(review_id)
+    return render_template("edit_review.html", review=review)
+
+@app.route("/update_review", methods=["POST"])
+def update_review():
+    review_id = request.form["review_id"]
+    title = request.form["title"]
+    place = request.form["place"]
+    time = request.form["time"]
+    location = request.form["location"]
+    description = request.form["description"]
+    evaluation = request.form["evaluation"]
+
+    reviews.update_review(review_id, title, place, time, location, description, evaluation)
+    return redirect("/review/" + str(review_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")
