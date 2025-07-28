@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Arvion poisto</title>
+</head>
+
+<body>
+  <h1>Arvion poisto</h1>
+  <p>Arvio: {{ review.title }}</p>
+  <p>Haluatko varmasti poistaa arvion?</p>
+  <form action="/remove_review/{{ review.id }}" method="post">
+    <input type="submit" name="remove" value="Poista arvio" />
+    <input type="submit" name="back" value="Palaa takaisin" />
+  </form>
+</body>
+
+</html>

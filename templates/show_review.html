@@ -10,6 +10,7 @@
   {% if session.user_id == review.user_id %}
   <p>
     <a href="/edit_review/{{review.id}}">Muokkaa</a>
+    <a href="/remove_review/{{review.id}}">Poista</a>
   </p>
   {% endif %}
   <p>
