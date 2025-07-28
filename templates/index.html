@@ -20,10 +20,11 @@
   </p>
 
   <p>
-    <a href="/new_review">Uusi arvostelu</a>
+    <a href="/new_review">Uusi arvio</a>
+    <a href="/find_review">Etsi arvio</a>
   </p>
 
-  <h2>Arvostelut</h2>
+  <h2>Arviot</h2>
   <ul>
     {% for review in reviews %}
     <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
