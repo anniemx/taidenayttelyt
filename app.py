@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
@@ -49,11 +49,17 @@ def create_review():
 @app.route("/edit_review/<int:review_id>")
 def edit_review(review_id):
     review = reviews.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
     return render_template("edit_review.html", review=review)
 
 @app.route("/update_review", methods=["POST"])
 def update_review():
     review_id = request.form["review_id"]
+    review = reviews.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
+
     title = request.form["title"]
     place = request.form["place"]
     time = request.form["time"]
@@ -66,8 +72,10 @@ def update_review():
 
 @app.route("/remove_review/<int:review_id>", methods=["GET", "POST"])
 def remove_review(review_id):
+    review = reviews.get_review(review_id)
+    if review["user_id"] != session["user_id"]:
+        abort(403)
     if request.method == "GET":
-        review = reviews.get_review(review_id)
         return render_template("remove_review.html", review=review)
     if request.method == "POST":
         if "remove" in request.form:
