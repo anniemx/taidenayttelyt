@@ -29,7 +29,7 @@
     Arvosana: {{ review.evaluation }}
   </p>
   <p>
-    Arvostelija: {{ review.username }}
+    Arvostelija: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
   </p>
   <p>
     <a href="/">Palaa takaisin etusivulle</a>

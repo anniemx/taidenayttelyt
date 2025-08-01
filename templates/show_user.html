@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Käyttäjä: {{ user.username }}</title>
+</head>
+
+<body>
+  <h1>Käyttäjä {{ user.username }}</h1>
+  <p>
+    Käyttäjällä on yhteensä {{ reviews | count }} arviota.
+  </p>
+  <h2>Arviot</h2>
+  <ul>
+    {% for review in reviews %}
+    <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="/">Palaa takaisin etusivulle</a>
+  </p>
+</body>
+
+</html>
