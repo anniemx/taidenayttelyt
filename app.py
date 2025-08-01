@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import config
 import db
 import reviews
+import re
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -44,11 +45,24 @@ def new_review():
 def create_review():
     require_login()
     title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     place = request.form["place"]
+    if not place or len(place) > 50:
+        abort(403)
     time = request.form["time"]
+    date_format = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+    if not re.search(date_format, time):
+        abort(403)
     location = request.form["location"]
+    if not location or len(location) > 50:
+        abort(403)
     description = request.form["description"]
+    if not description or len(description) > 1000:
+        abort(403)
     evaluation = request.form["evaluation"]
+    if not evaluation:
+        abort(403)
     user_id = session["user_id"]
 
     reviews.add_review(title, place, time, location, description, evaluation, user_id)
@@ -72,13 +86,25 @@ def update_review():
         abort(404)
     if review["user_id"] != session["user_id"]:
         abort(403)
-
     title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     place = request.form["place"]
+    if not place or len(place) > 50:
+        abort(403)
     time = request.form["time"]
+    date_format = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+    if not re.search(date_format, time):
+        abort(403)
     location = request.form["location"]
+    if not location or len(location) > 50:
+        abort(403)
     description = request.form["description"]
+    if not description or len(description) > 1000:
+        abort(403)
     evaluation = request.form["evaluation"]
+    if not evaluation:
+        abort(403)
 
     reviews.update_review(review_id, title, place, time, location, description, evaluation)
     return redirect("/review/" + str(review_id))

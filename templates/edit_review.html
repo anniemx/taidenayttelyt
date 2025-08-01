@@ -10,24 +10,24 @@
   <form action="/update_review" method="post">
     <p>
       Otsikko: <br />
-      <input type="text" name="title" value="{{ review.title }}"/>
+      <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
     </p>
     <p>Museo tai galleria
-        <input type="text" name="place" size="15" value="{{ review.place }}"/>
+        <input type="text" name="place" size="15" value="{{ review.place }}" maxlength="50" required />
     </p>
-    <p>Ajankohta
-        <input type="text" name="time" size="20" value="{{ review.time }}"/>
+    <p>Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY
+        <input type="text" name="time" size="20" value="{{ review.time }}" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
     </p>
     <p>Paikkakunta
-        <input type="text" name="location" size="10" value="{{ review.location }}"/>
+        <input type="text" name="location" size="10" value="{{ review.location }}" maxlength="50" required />
     </p>
     <p>
       Arvio: <br />
-      <textarea name="description" rows="8" cols="70">{{ review.description }}</textarea>
+      <textarea name="description" rows="8" cols="70" maxlength="1000" required>{{ review.description }}</textarea>
     </p>
     <p>Arvosana:</p>
     <p>
-        <input type="radio" name="evaluation" value="1" /> *
+        <input type="radio" name="evaluation" value="1" required /> *
         <input type="radio" name="evaluation" value="2" /> **
         <input type="radio" name="evaluation" value="3" /> ***
         <input type="radio" name="evaluation" value="4" /> ****
