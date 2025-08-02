@@ -14,3 +14,10 @@ CREATE TABLE reviews (
     evaluation INTEGER,
     user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE review_classes (
+    id INTEGER PRIMARY KEY,
+    review_id INTEGER REFERENCES reviews,
+    title TEXT,
+    value TEXT
+);
