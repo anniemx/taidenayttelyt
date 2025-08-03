@@ -45,7 +45,7 @@ def get_review(review_id):
     result = db.query(sql, [review_id])
     return result[0] if result else None
 
-def update_review(review_id, title, place, time, location, description, evaluation):
+def update_review(review_id, title, place, time, location, description, evaluation, classes):
     sql = """UPDATE reviews SET title = ?,
                                 place = ?,
                                 time = ?,
@@ -53,7 +53,14 @@ def update_review(review_id, title, place, time, location, description, evaluati
                                 description = ?,
                                 evaluation = ?
                             WHERE id = ?"""
-    return db.execute(sql, [title, place, time, location, description, evaluation, review_id])
+    db.execute(sql, [title, place, time, location, description, evaluation, review_id])
+
+    sql = "DELETE FROM review_classes WHERE review_id = ?"
+    db.execute(sql, [review_id])
+
+    sql = "INSERT INTO review_classes (review_id, title, value) VALUES (?, ?, ?)"
+    for title, value in classes:
+        db.execute(sql, [review_id, title, value])
 
 def remove_review(review_id):
     sql = "DELETE FROM reviews WHERE id = ?"

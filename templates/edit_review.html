@@ -25,6 +25,22 @@
       Arvio: <br />
       <textarea name="description" rows="8" cols="70" maxlength="1000" required>{{ review.description }}</textarea>
     </p>
+    {% for class in classes %}
+    <p>
+      {{ class }}: <br />
+      <select name="classes">
+        <option value="">(valitse)</option>
+      {% for option in all_classes[class] %}
+        {% if classes[class] == option %}
+        <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
+        {% else %}
+        <option value="{{ class }}:{{ option }}">{{ option }}</option>
+        {% endif %}
+      {% endfor %}
+      </select>
+    </p>
+    {% endfor %}
+
     <p>Arvosana:</p>
     <p>
         <input type="radio" name="evaluation" value="1" required /> *
