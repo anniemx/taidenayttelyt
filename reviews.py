@@ -62,6 +62,8 @@ def update_review(review_id, title, place, time, location, description, evaluati
         db.execute(sql, [review_id, title, value])
 
 def remove_review(review_id):
+    sql = "DELETE FROM review_classes WHERE review_id = ?"
+    db.execute(sql, [review_id])
     sql = "DELETE FROM reviews WHERE id = ?"
     db.execute(sql, [review_id])
 
