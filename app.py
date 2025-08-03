@@ -49,7 +49,8 @@ def show_review(review_id):
 @app.route("/new_review")
 def new_review():
     require_login()
-    return render_template("new_review.html")
+    classes = reviews.get_all_classes()
+    return render_template("new_review.html", classes=classes)
 
 @app.route("/create_review", methods=["POST"])
 def create_review():
@@ -76,12 +77,10 @@ def create_review():
     user_id = session["user_id"]
 
     classes = []
-    category = request.form["category"]
-    if category:
-        classes.append(("Kategoria", category))
-    period = request.form["period"]
-    if period:
-        classes.append(("Aikakausi", period))
+    for entry in request.form.getlist("classes"):
+        if entry:
+            parts = entry.split(":")
+            classes.append((parts[0], parts[1]))
 
     reviews.add_review(title, place, time, location, description, evaluation, user_id, classes)
     return redirect("/")
