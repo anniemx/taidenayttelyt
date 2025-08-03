@@ -16,7 +16,6 @@ def add_review(title, place, time, location, description, evaluation, user_id, c
     db.execute(sql, [title, place, time, location, description, evaluation, user_id])
 
     review_id = db.last_insert_id()
-
     sql = "INSERT INTO review_classes (review_id, title, value) VALUES (?, ?, ?)"
     for title, value in classes:
         db.execute(sql, [review_id, title, value])
