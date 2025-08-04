@@ -44,7 +44,8 @@ def show_review(review_id):
     if not review:
         abort(404)
     classes = reviews.get_classes(review_id)
-    return render_template("show_review.html", review=review, classes=classes)
+    comments = reviews.get_comments(review_id)
+    return render_template("show_review.html", review=review, classes=classes, comments=comments)
 
 @app.route("/new_review")
 def new_review():
@@ -168,6 +169,21 @@ def remove_review(review_id):
             return redirect("/")
         else:
             return redirect("/review/" + str(review_id))
+
+@app.route("/create_comment", methods=["POST"])
+def create_comment():
+    require_login()
+    content = request.form["content"]
+    user_id = session["user_id"]
+    review_id = request.form["review_id"]
+    if not content or len(content) > 1000:
+        abort(403)
+    evaluation = request.form["evaluation"]
+    if not evaluation:
+        abort(403)
+
+    reviews.add_comment(content, user_id, evaluation, review_id)
+    return redirect("/review/" + str(review_id))
 
 @app.route("/register")
 def register():

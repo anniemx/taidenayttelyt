@@ -27,3 +27,12 @@ CREATE TABLE review_classes (
     title TEXT,
     value TEXT
 );
+
+CREATE TABLE comments (
+    id INTEGER PRIMARY KEY,
+    content TEXT,
+    sent_at TEXT,
+    user_id INTEGER REFERENCES users,
+    evaluation INTEGER,
+    review_id INTEGER REFERENCES reviews
+);

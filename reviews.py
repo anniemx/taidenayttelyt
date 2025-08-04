@@ -74,3 +74,20 @@ def find_reviews(query):
              ORDER BY id DESC"""
     like = "%" + query + "%"
     return db.query(sql, [like, like, like, like, like])
+
+def add_comment(content, user_id, evaluation, review_id):
+    sql = """INSERT INTO comments (content, sent_at, user_id, evaluation, review_id)
+             VALUES (?, datetime('now'), ?, ?, ?)"""
+    db.execute(sql, [content, user_id, evaluation, review_id])
+
+def get_comments(review_id):
+    sql = """SELECT comments.content,
+                    comments.sent_at,
+                    comments.evaluation,
+                    comments.user_id,
+                    users.id user_id,
+                    users.username
+             FROM comments, users
+             WHERE comments.review_id = ? AND comments.user_id = users.id
+             ORDER BY comments.id DESC"""
+    return db.query(sql, [review_id])

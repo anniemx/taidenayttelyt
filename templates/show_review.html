@@ -41,6 +41,46 @@
     </ul>
   </p>
   {% endif %}
+
+  <h2>Kommentit</h2>
+  {% for comment in comments %}
+  <p>
+    {{ comment.username }} ({{ comment.sent_at }}):
+  </p>
+  <p>
+    {{ comment.content }}
+  </p>
+  <p>
+    Arvosana: {{ comment.evaluation}}
+  </p>
+  {% if comment.user_id == session.user_id %}
+  <p>
+    <a href="/edit/{{ comment.id }}">Muokkaa</a>
+    <a href="/remove/{{ comment.id }}">Poista</a>
+  </p>
+  {% endif %}
+  <hr />
+  {% endfor %}
+  {% if session.user_id %}
+  <h2>Uusi kommentti</h2>
+  <form action="/create_comment" method="post">
+    <p>
+      Kommentti: <br />
+      <textarea name="content" rows="8" cols="70" maxlength="1000" required></textarea>
+    </p>
+    <p>Anna oma arvosana:</p>
+      <p>
+        <input type="radio" name="evaluation" value="1" required /> *
+        <input type="radio" name="evaluation" value="2" /> **
+        <input type="radio" name="evaluation" value="3" /> ***
+        <input type="radio" name="evaluation" value="4" /> ****
+        <input type="radio" name="evaluation" value="5" /> *****
+      </p>
+      <input type="hidden" name="review_id" value = "{{review.id}}" />
+      <input type="submit" value="Lähetä kommentti"/>
+  </form>
+  <hr />
+  {% endif %}
   <p>
     <a href="/">Palaa takaisin etusivulle</a>
   </p>
