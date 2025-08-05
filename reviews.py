@@ -81,9 +81,11 @@ def add_comment(content, user_id, evaluation, review_id):
     db.execute(sql, [content, user_id, evaluation, review_id])
 
 def get_comments(review_id):
-    sql = """SELECT comments.content,
+    sql = """SELECT comments.id,
+                    comments.content,
                     comments.sent_at,
                     comments.evaluation,
+                    comments.review_id,
                     comments.user_id,
                     users.id user_id,
                     users.username
@@ -91,3 +93,26 @@ def get_comments(review_id):
              WHERE comments.review_id = ? AND comments.user_id = users.id
              ORDER BY comments.id DESC"""
     return db.query(sql, [review_id])
+
+def get_comment(comment_id):
+    sql = """SELECT comments.id,
+                    comments.content,
+                    comments.sent_at,
+                    comments.evaluation,
+                    comments.review_id,
+                    comments.user_id,
+                    users.id user_id,
+                    users.username,
+                    reviews.id review_id
+             FROM comments, users, reviews
+             WHERE comments.id = ? """
+    result = db.query(sql, [comment_id])
+    return result[0] #if result else None
+
+def update_comment(content, evaluation, comment_id):
+    sql = "UPDATE comments SET content = ?, evaluation = ? WHERE id = ?"
+    db.execute(sql, [content, evaluation, comment_id])
+
+def remove_comment(comment_id):
+    sql = "DELETE FROM comments WHERE id = ?"
+    db.execute(sql, [comment_id])

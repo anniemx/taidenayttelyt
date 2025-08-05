@@ -185,6 +185,48 @@ def create_comment():
     reviews.add_comment(content, user_id, evaluation, review_id)
     return redirect("/review/" + str(review_id))
 
+@app.route("/edit_comment/<int:comment_id>", methods=["GET", "POST"])
+def edit_comment(comment_id):
+    comment = reviews.get_comment(comment_id)
+
+    if request.method == "GET":
+        return render_template("edit_comment.html", comment=comment)
+
+    if request.method == "POST":
+        return update_comment()
+
+@app.route("/update_comment", methods=["POST"])
+def update_comment():
+    comment_id = request.form["comment_id"]
+    comment = reviews.get_comment(comment_id)
+    if comment["user_id"] != session["user_id"]:
+        abort(403)
+    content = request.form["content"]
+    if not content or len(content) > 1000:
+        abort(403)
+    evaluation = request.form["evaluation"]
+    if not evaluation:
+        abort(403)
+    reviews.update_comment(content, evaluation, comment_id)
+    return redirect("/review/" + str(comment["review_id"]))
+
+@app.route("/remove_comment/<int:comment_id>", methods=["GET", "POST"])
+def remove_comment(comment_id):
+    require_login()
+    comment = reviews.get_comment(comment_id)
+    if not comment:
+        abort(404)
+    if comment["user_id"] != session["user_id"]:
+        abort(403)
+    if request.method == "GET":
+        return render_template("remove_comment.html", comment=comment)
+    if request.method == "POST":
+        if "continue" in request.form:
+            reviews.remove_comment(comment["id"])
+            return redirect("/review/" + str(comment["review_id"]))
+        else:
+            return redirect("/review/" + str(comment["review_id"]))
+
 @app.route("/register")
 def register():
     return render_template("register.html")

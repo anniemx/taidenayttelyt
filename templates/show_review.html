@@ -9,8 +9,8 @@
   <h1>{{ review.title }}</h1>
   {% if session.user_id == review.user_id %}
   <p>
-    <a href="/edit_review/{{review.id}}">Muokkaa</a>
-    <a href="/remove_review/{{review.id}}">Poista</a>
+    <a href="/edit_review/{{ review.id }}">Muokkaa</a>
+    <a href="/remove_review/{{ review.id }}">Poista</a>
   </p>
   {% endif %}
   <p>
@@ -51,12 +51,12 @@
     {{ comment.content }}
   </p>
   <p>
-    Arvosana: {{ comment.evaluation}}
+    Arvosana: {{ comment.evaluation }}
   </p>
   {% if comment.user_id == session.user_id %}
   <p>
-    <a href="/edit/{{ comment.id }}">Muokkaa</a>
-    <a href="/remove/{{ comment.id }}">Poista</a>
+    <a href="/edit_comment/{{ comment.id }}">Muokkaa</a>
+    <a href="/remove_comment/{{ comment.id }}">Poista</a>
   </p>
   {% endif %}
   <hr />
@@ -76,7 +76,7 @@
         <input type="radio" name="evaluation" value="4" /> ****
         <input type="radio" name="evaluation" value="5" /> *****
       </p>
-      <input type="hidden" name="review_id" value = "{{review.id}}" />
+      <input type="hidden" name="review_id" value = "{{ review.id }}" />
       <input type="submit" value="Lähetä kommentti"/>
   </form>
   <hr />

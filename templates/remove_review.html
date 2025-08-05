@@ -2,15 +2,15 @@
 <html>
 
 <head>
-  <title>Arvion poisto</title>
+  <title>Kommentin poisto</title>
 </head>
 
 <body>
   <h1>Arvion poisto</h1>
-  <p>Arvio: {{ review.title }}</p>
+  <p>Arvio: {{ comment.title }}</p>
   <p>Haluatko varmasti poistaa arvion?</p>
-  <form action="/remove_review/{{ review.id }}" method="post">
-    <input type="submit" name="remove" value="Poista arvio" />
+  <form action="/remove_comment/{{ comment.id }}" method="post">
+    <input type="submit" name="remove" value="Poista kommentti" />
     <input type="submit" name="back" value="Palaa takaisin" />
   </form>
 </body>
