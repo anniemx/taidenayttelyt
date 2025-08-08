@@ -6,9 +6,9 @@
 </head>
 
 <body>
-  <h1>Arvion poisto</h1>
-  <p>Arvio: {{ comment.title }}</p>
-  <p>Haluatko varmasti poistaa arvion?</p>
+  <h1>Kommentin poisto</h1>
+  <p>Kommentti: {{ comment.content }}</p>
+  <p>Haluatko varmasti poistaa kommentin?</p>
   <form action="/remove_comment/{{ comment.id }}" method="post">
     <input type="submit" name="remove" value="Poista kommentti" />
     <input type="submit" name="back" value="Palaa takaisin" />
