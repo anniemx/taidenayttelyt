@@ -1,55 +1,50 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Uusi arvio</title>
-</head>
+{% block title %}Uusi arvio{% endblock %}
 
-<body>
-  <h1>Uusi arvio</h1>
-  <form action="/create_review" method="post">
-    <p>
-      Otsikko: <br />
-      <input type="text" name="title" maxlength="50" required />
-    </p>
-    <p>
-      Museo tai galleria
-      <input type="text" name="place" size="15" maxlength="50" required />
-    </p>
-    <p>
-      Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY
-      <input type="text" name="time" size="20" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
-    </p>
-    <p>
-      Paikkakunta
-      <input type="text" name="location" size="10" maxlength="50" required />
-    </p>
-    <p>
-      Arvio: <br />
-      <textarea name="description" rows="8" cols="70" maxlength="1000" required></textarea>
-    </p>
-    {% for class in classes %}
-    <p>
-      {{ class }}: <br />
-      <select name="classes">
-        <option value="">(valitse)</option>
-        {% for option in classes[class] %}
-        <option value="{{ class }}:{{ option }}">{{ option }}</option>
-        {% endfor %}
-      </select>
-    </p>
-    {% endfor %}
+{% block content %}
+<h2>Uusi arvio</h2>
+<form action="/create_review" method="post">
+  <p>
+    Otsikko: <br />
+    <input type="text" name="title" maxlength="50" required />
+  </p>
+  <p>
+    Museo tai galleria
+    <input type="text" name="place" size="15" maxlength="50" required />
+  </p>
+  <p>
+    Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY
+    <input type="text" name="time" size="20" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
+  </p>
+  <p>
+    Paikkakunta
+    <input type="text" name="location" size="10" maxlength="50" required />
+  </p>
+  <p>
+    Arvio: <br />
+    <textarea name="description" rows="8" cols="70" maxlength="1000" required></textarea>
+  </p>
+  {% for class in classes %}
+  <p>
+    {{ class }}: <br />
+    <select name="classes">
+      <option value="">(valitse)</option>
+      {% for option in classes[class] %}
+      <option value="{{ class }}:{{ option }}">{{ option }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  {% endfor %}
 
-    <p>Arvosana:</p>
-    <p>
-      <input type="radio" name="evaluation" value="1" required /> *
-      <input type="radio" name="evaluation" value="2" /> **
-      <input type="radio" name="evaluation" value="3" /> ***
-      <input type="radio" name="evaluation" value="4" /> ****
-      <input type="radio" name="evaluation" value="5" /> *****
-    </p>
-    <input type="submit" value="Luo arvio"/>
-  </form>
-</body>
-
-</html>
+  <p>Arvosana:</p>
+  <p>
+    <input type="radio" name="evaluation" value="1" required /> *
+    <input type="radio" name="evaluation" value="2" /> **
+    <input type="radio" name="evaluation" value="3" /> ***
+    <input type="radio" name="evaluation" value="4" /> ****
+    <input type="radio" name="evaluation" value="5" /> *****
+  </p>
+  <input type="submit" value="Luo arvio"/>
+</form>
+{% endblock %}

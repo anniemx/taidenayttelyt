@@ -1,29 +1,24 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Kommentin muokkaus</title>
-</head>
+{% block title %}Kommentin muokkaus{% endblock %}
 
-<body>
-  <h1>Arvion muokkaus</h1>
-  <form action="/update_comment" method="post">
-    <input type="hidden" name="comment_id" value="{{ comment.id }}">
-    <input type="hidden" name="review_id" value="{{ comment.review_id }}">
-    <p>
-      Kommentti: <br />
-      <textarea name="content" rows="8" cols="70" maxlength="1000" required>{{ comment.content }}</textarea>
-    </p>
-  <p>Arvosana:</p>
-    <p>
-      <input type="radio" name="evaluation" value="1" required /> *
-      <input type="radio" name="evaluation" value="2" /> **
-      <input type="radio" name="evaluation" value="3" /> ***
-      <input type="radio" name="evaluation" value="4" /> ****
-      <input type="radio" name="evaluation" value="5" /> *****
-    </p>
-    <input type="submit" value="Päivitä kommentti" />
-  </form>
-</body>
-
-</html>
+{% block content %}
+<h2>Kommentin muokkaus</h2>
+<form action="/update_comment" method="post">
+  <input type="hidden" name="comment_id" value="{{ comment.id }}">
+  <input type="hidden" name="review_id" value="{{ comment.review_id }}">
+  <p>
+    Kommentti: <br />
+    <textarea name="content" rows="8" cols="70" maxlength="1000" required>{{ comment.content }}</textarea>
+  </p>
+<p>Arvosana:</p>
+  <p>
+    <input type="radio" name="evaluation" value="1" required /> *
+    <input type="radio" name="evaluation" value="2" /> **
+    <input type="radio" name="evaluation" value="3" /> ***
+    <input type="radio" name="evaluation" value="4" /> ****
+    <input type="radio" name="evaluation" value="5" /> *****
+  </p>
+  <input type="submit" value="Päivitä kommentti" />
+</form>
+{% endblock %}

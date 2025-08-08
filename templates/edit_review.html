@@ -1,57 +1,52 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Arvion muokkaus</title>
-</head>
+{% block title %}Arvion muokkaus{% endblock %}
 
-<body>
-  <h1>Arvion muokkaus</h1>
-  <form action="/update_review" method="post">
-    <p>
-      Otsikko: <br />
-      <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
-    </p>
-    <p>Museo tai galleria
-        <input type="text" name="place" size="15" value="{{ review.place }}" maxlength="50" required />
-    </p>
-    <p>Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY
-        <input type="text" name="time" size="20" value="{{ review.time }}" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
-    </p>
-    <p>Paikkakunta
-        <input type="text" name="location" size="10" value="{{ review.location }}" maxlength="50" required />
-    </p>
-    <p>
-      Arvio: <br />
-      <textarea name="description" rows="8" cols="70" maxlength="1000" required>{{ review.description }}</textarea>
-    </p>
-    {% for class in classes %}
-    <p>
-      {{ class }}: <br />
-      <select name="classes">
-        <option value="">(valitse)</option>
-      {% for option in all_classes[class] %}
-        {% if classes[class] == option %}
-        <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
-        {% else %}
-        <option value="{{ class }}:{{ option }}">{{ option }}</option>
-        {% endif %}
-      {% endfor %}
-      </select>
-    </p>
+{% block content %}
+<h2>Arvion muokkaus</h2>
+<form action="/update_review" method="post">
+  <p>
+    Otsikko: <br />
+    <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
+  </p>
+  <p>Museo tai galleria
+    <input type="text" name="place" size="15" value="{{ review.place }}" maxlength="50" required />
+  </p>
+  <p>Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY
+    <input type="text" name="time" size="20" value="{{ review.time }}" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
+  </p>
+  <p>Paikkakunta
+    <input type="text" name="location" size="10" value="{{ review.location }}" maxlength="50" required />
+  </p>
+  <p>
+    Arvio: <br />
+    <textarea name="description" rows="8" cols="70" maxlength="1000" required>{{ review.description }}</textarea>
+  </p>
+  {% for class in classes %}
+  <p>
+    {{ class }}: <br />
+    <select name="classes">
+      <option value="">(valitse)</option>
+    {% for option in all_classes[class] %}
+      {% if classes[class] == option %}
+      <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
+      {% else %}
+      <option value="{{ class }}:{{ option }}">{{ option }}</option>
+      {% endif %}
     {% endfor %}
+    </select>
+  </p>
+  {% endfor %}
 
-    <p>Arvosana:</p>
-    <p>
-        <input type="radio" name="evaluation" value="1" required /> *
-        <input type="radio" name="evaluation" value="2" /> **
-        <input type="radio" name="evaluation" value="3" /> ***
-        <input type="radio" name="evaluation" value="4" /> ****
-        <input type="radio" name="evaluation" value="5" /> *****
-    </p>
-    <input type="hidden" name="review_id" value="{{ review.id }}">
-    <input type="submit" value="Päivitä arvio" />
-  </form>
-</body>
-
-</html>
+  <p>Arvosana:</p>
+  <p>
+      <input type="radio" name="evaluation" value="1" required /> *
+      <input type="radio" name="evaluation" value="2" /> **
+      <input type="radio" name="evaluation" value="3" /> ***
+      <input type="radio" name="evaluation" value="4" /> ****
+      <input type="radio" name="evaluation" value="5" /> *****
+  </p>
+  <input type="hidden" name="review_id" value="{{ review.id }}">
+  <input type="submit" value="Päivitä arvio" />
+</form>
+{% endblock %}

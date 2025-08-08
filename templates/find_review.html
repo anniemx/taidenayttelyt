@@ -1,29 +1,21 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Etsi arvio</title>
-</head>
+{% block title %}Taidenäyttelyt{% endblock %}
 
-<body>
-  <h1>Etsi arvio</h1>
-  <form action="/find_review" method="get">
-    <p>
-        Hakusana: <input type="text" name="query" value="{{ query }}">
-    </p>
-    <input type="submit" value="Etsi">
-  </form>
+{% block content %}
+<h2>Etsi arvio</h2>
+<form action="/find_review" method="get">
   <p>
-    <a href="/">Takaisin</a>
+      Hakusana: <input type="text" name="query" value="{{ query }}">
   </p>
-  {% if query %}
-  <h2>Tulokset</h2>
-  <ul>
-    {% for review in results %}
-    <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</body>
-
-</html>
+  <input type="submit" value="Etsi">
+</form>
+{% if query %}
+<h2>Tulokset</h2>
+<ul>
+  {% for review in results %}
+  <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

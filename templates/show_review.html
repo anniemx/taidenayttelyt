@@ -1,89 +1,81 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{ review.title }}</title>
-</head>
+{% block title %}{{ review.title }}{% endblock %}
 
-<body>
-  <h1>{{ review.title }}</h1>
-  {% if session.user_id == review.user_id %}
-  <p>
-    <a href="/edit_review/{{ review.id }}">Muokkaa</a>
-    <a href="/remove_review/{{ review.id }}">Poista</a>
-  </p>
-  {% endif %}
-  <p>
-    Museo tai galleria: {{ review.place }}
-  </p>
-  <p>
-    Ajankohta: {{ review.time }}
-  </p>
-  <p>
-    Paikkakunta: {{ review.location }}
-  </p>
-  <p>
-    {{ review.description }}
-  </p>
-  <p>
-    Arvosana: {{ review.evaluation }}
-  </p>
-  <p>
-    Arvostelija: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
-  </p>
-  {% if classes %}
-  <p>
-    Luokittelut:
-    <ul>
-      {% for class in classes %}
-      <li>{{ class.title }}: {{ class.value }}</li>
-      {% endfor %}
-    </ul>
-  </p>
-  {% endif %}
+{% block content %}
+<h2>{{ review.title }}</h2>
+{% if session.user_id == review.user_id %}
+<p>
+  <a href="/edit_review/{{ review.id }}">Muokkaa</a>
+  <a href="/remove_review/{{ review.id }}">Poista</a>
+</p>
+{% endif %}
+<p>
+  Museo tai galleria: {{ review.place }}
+</p>
+<p>
+  Ajankohta: {{ review.time }}
+</p>
+<p>
+  Paikkakunta: {{ review.location }}
+</p>
+<p>
+  {{ review.description }}
+</p>
+<p>
+  Arvosana: {{ review.evaluation }}
+</p>
+<p>
+  Arvostelija: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
+</p>
+{% if classes %}
+<p>
+  Luokittelut:
+  <ul>
+    {% for class in classes %}
+    <li>{{ class.title }}: {{ class.value }}</li>
+    {% endfor %}
+  </ul>
+</p>
+{% endif %}
 
-  <h2>Kommentit</h2>
-  {% for comment in comments %}
+<h2>Kommentit</h2>
+{% for comment in comments %}
+<p>
+  {{ comment.username }} ({{ comment.sent_at }}):
+</p>
+<p>
+  {{ comment.content }}
+</p>
+<p>
+  Arvosana: {{ comment.evaluation }}
+</p>
+{% if comment.user_id == session.user_id %}
+<p>
+  <a href="/edit_comment/{{ comment.id }}">Muokkaa</a>
+  <a href="/remove_comment/{{ comment.id }}">Poista</a>
+</p>
+{% endif %}
+<hr />
+{% endfor %}
+{% if session.user_id %}
+<h2>Uusi kommentti</h2>
+<form action="/create_comment" method="post">
   <p>
-    {{ comment.username }} ({{ comment.sent_at }}):
+    Kommentti: <br />
+    <textarea name="content" rows="8" cols="70" maxlength="1000" required></textarea>
   </p>
-  <p>
-    {{ comment.content }}
-  </p>
-  <p>
-    Arvosana: {{ comment.evaluation }}
-  </p>
-  {% if comment.user_id == session.user_id %}
-  <p>
-    <a href="/edit_comment/{{ comment.id }}">Muokkaa</a>
-    <a href="/remove_comment/{{ comment.id }}">Poista</a>
-  </p>
-  {% endif %}
-  <hr />
-  {% endfor %}
-  {% if session.user_id %}
-  <h2>Uusi kommentti</h2>
-  <form action="/create_comment" method="post">
+  <p>Anna oma arvosana:</p>
     <p>
-      Kommentti: <br />
-      <textarea name="content" rows="8" cols="70" maxlength="1000" required></textarea>
+      <input type="radio" name="evaluation" value="1" required /> *
+      <input type="radio" name="evaluation" value="2" /> **
+      <input type="radio" name="evaluation" value="3" /> ***
+      <input type="radio" name="evaluation" value="4" /> ****
+      <input type="radio" name="evaluation" value="5" /> *****
     </p>
-    <p>Anna oma arvosana:</p>
-      <p>
-        <input type="radio" name="evaluation" value="1" required /> *
-        <input type="radio" name="evaluation" value="2" /> **
-        <input type="radio" name="evaluation" value="3" /> ***
-        <input type="radio" name="evaluation" value="4" /> ****
-        <input type="radio" name="evaluation" value="5" /> *****
-      </p>
-      <input type="hidden" name="review_id" value = "{{ review.id }}" />
-      <input type="submit" value="Lähetä kommentti"/>
-  </form>
-  <hr />
-  {% endif %}
-  <p>
-    <a href="/">Palaa takaisin etusivulle</a>
-  </p>
-</body>
-
-</html>
+    <input type="hidden" name="review_id" value = "{{ review.id }}" />
+    <input type="submit" value="Lähetä kommentti"/>
+</form>
+<hr />
+{% endif %}
+{% endblock %}
