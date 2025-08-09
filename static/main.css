@@ -2,12 +2,12 @@ body {
   margin: auto;
   max-width: 50em;
   font-family: sans-serif;
-  background-color: #81ae9d;
+  background-color: #ffffff;
   color: #1e1e24;
 }
 
 .review {
-  background: #21a179;
+  background: #81ae9d;
   margin: 1em;
   padding: 1em 1em;
   height: 2em;
