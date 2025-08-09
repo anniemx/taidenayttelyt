@@ -62,6 +62,8 @@ def update_review(review_id, title, place, time, location, description, evaluati
         db.execute(sql, [review_id, title, value])
 
 def remove_review(review_id):
+    sql = "DELETE FROM comments WHERE review_id = ?"
+    db.execute(sql, [review_id])
     sql = "DELETE FROM review_classes WHERE review_id = ?"
     db.execute(sql, [review_id])
     sql = "DELETE FROM reviews WHERE id = ?"
@@ -107,7 +109,7 @@ def get_comment(comment_id):
              FROM comments, users, reviews
              WHERE comments.id = ? """
     result = db.query(sql, [comment_id])
-    return result[0] #if result else None
+    return result[0]
 
 def update_comment(content, evaluation, comment_id):
     sql = "UPDATE comments SET content = ?, evaluation = ? WHERE id = ?"
