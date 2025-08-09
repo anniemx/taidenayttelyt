@@ -1,0 +1,16 @@
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+  background-color: #81ae9d;
+  color: #1e1e24;
+}
+
+.review {
+  background: #21a179;
+  margin: 1em;
+  padding: 1em 1em;
+  height: 2em;
+  color: #1e1e24;
+  border-radius: 15px;
+}
