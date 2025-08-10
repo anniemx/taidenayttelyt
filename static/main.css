@@ -15,3 +15,11 @@ body {
   border-radius: 15px;
   text-align: left;
 }
+
+.info {
+  border-radius: 15px;
+  margin: 1em;
+  padding: 0.5em;
+  background-color:#fb9f89;
+  color: #1e1e24;
+}
