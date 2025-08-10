@@ -19,6 +19,7 @@ def add_review(title, place, time, location, description, evaluation, user_id, c
     sql = "INSERT INTO review_classes (review_id, title, value) VALUES (?, ?, ?)"
     for title, value in classes:
         db.execute(sql, [review_id, title, value])
+    return review_id
 
 def get_classes(review_id):
     sql = "SELECT title, value FROM review_classes WHERE review_id = ?"

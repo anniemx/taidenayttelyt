@@ -5,6 +5,7 @@ import config
 import reviews
 import re
 import users
+import db
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -87,8 +88,8 @@ def create_review():
                 abort(403)
             classes.append((class_title, class_value))
 
-    reviews.add_review(title, place, time, location, description, evaluation, user_id, classes)
-    return redirect("/")
+    review_id = reviews.add_review(title, place, time, location, description, evaluation, user_id, classes)
+    return redirect("/review/" + str(review_id))
 
 @app.route("/edit_review/<int:review_id>")
 def edit_review(review_id):
