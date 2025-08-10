@@ -4,10 +4,8 @@
 
 {% block content %}
 <h2>Arvion poisto</h2>
-<p>Arvio: {{ review.title }}</p>
-<p>
-  Haluatko varmasti poistaa arvion?
-</p>
+<p>Arvio: <a href="/review/{{ review.id }}">{{ review.title }}</a></p>
+<p>Haluatko varmasti poistaa arvion?</p>
 <form action="/remove_review/{{ review.id }}" method="post">
   <input type="submit" name="remove" value="Poista arvio" />
   <input type="submit" name="back" value="Peruuta" />

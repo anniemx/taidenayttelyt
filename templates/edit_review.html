@@ -49,4 +49,7 @@
   <input type="hidden" name="review_id" value="{{ review.id }}">
   <input type="submit" value="Päivitä arvio" />
 </form>
+<p>
+  <a href="/review/{{ review.id }}">Takaisin arvioon: {{ review.title }}</a>
+</p>
 {% endblock %}

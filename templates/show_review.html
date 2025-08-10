@@ -11,26 +11,23 @@
 </p>
 {% endif %}
 <p>
-  Museo tai galleria: {{ review.place }}
+  <b>Museo tai galleria:</b> {{ review.place }}
 </p>
 <p>
-  Ajankohta: {{ review.time }}
+  <b>Ajankohta:</b> {{ review.time }}
 </p>
 <p>
-  Paikkakunta: {{ review.location }}
+  <b>Paikkakunta:</b> {{ review.location }}
 </p>
 <p>
-  {{ review.description }}
+  <b>Arvosana:</b> {{ review.evaluation }}
 </p>
 <p>
-  Arvosana: {{ review.evaluation }}
-</p>
-<p>
-  Arvostelija: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
+  <b>Arvostelija:</b> <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
 </p>
 {% if classes %}
 <p>
-  Luokittelut:
+  <b>Luokittelut:</b>
   <ul>
     {% for class in classes %}
     <li>{{ class.title }}: {{ class.value }}</li>
@@ -38,8 +35,11 @@
   </ul>
 </p>
 {% endif %}
+<p>
+  <b>Arvio:</b> {{ review.description }}
+</p>
 
-<h2>Kommentit</h2>
+<h3>Kommentit</h3>
 {% for comment in comments %}
 <p>
   {{ comment.username }} ({{ comment.sent_at }}):
@@ -59,7 +59,7 @@
 <hr />
 {% endfor %}
 {% if session.user_id %}
-<h2>Uusi kommentti</h2>
+<h4>Uusi kommentti</h4>
 <form action="/create_comment" method="post">
   <p>
     Kommentti: <br />
