@@ -4,9 +4,12 @@
 
 {% block content %}
 
-<h2>Käyttäjä {{ user.username }}</h2>
+<h2>Käyttäjä: {{ user.username }}</h2>
 <p>
   Käyttäjällä on yhteensä {{ reviews | count }} arviota.
+</p>
+<p>
+  Käyttäjällä on yhteensä {{ comments | count }} kommenttia.
 </p>
 <h2>Arviot</h2>
 <ul>

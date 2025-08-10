@@ -10,6 +10,10 @@ def get_reviews(user_id):
     sql = "SELECT id, title FROM reviews WHERE user_id = ? ORDER BY id DESC"
     return db.query(sql, [user_id])
 
+def get_comments(user_id):
+    sql = "SELECT id, content FROM comments WHERE user_id = ? ORDER BY id DESC"
+    return db.query(sql, [user_id])
+
 def create_user(username, password):
     password_hash = generate_password_hash(password)
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"

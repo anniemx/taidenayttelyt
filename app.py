@@ -25,7 +25,8 @@ def show_user(user_id):
     if not user:
         abort(404)
     reviews = users.get_reviews(user_id)
-    return render_template("show_user.html", user=user, reviews=reviews)
+    comments = users.get_comments(user_id)
+    return render_template("show_user.html", user=user, reviews=reviews, comments=comments)
 
 @app.route("/find_review")
 def find_review():
