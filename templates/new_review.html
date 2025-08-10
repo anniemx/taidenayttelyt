@@ -6,7 +6,7 @@
 <h2>Uusi arvio</h2>
 <form action="/create_review" method="post">
   <p>
-    Otsikko: <br />
+    Näyttely: <br />
     <input type="text" name="title" maxlength="50" required />
   </p>
   <p>
@@ -19,7 +19,7 @@
   </p>
   <p>
     Paikkakunta
-    <input type="text" name="location" size="10" maxlength="50" required />
+    <input type="text" name="location" size="10" maxlength="50" pattern="[a-äA-Ä\s]+" required />
   </p>
   <p>
     Arvio: <br />

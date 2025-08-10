@@ -6,7 +6,7 @@
 <h2>Arvion muokkaus</h2>
 <form action="/update_review" method="post">
   <p>
-    Otsikko: <br />
+    Näyttely: <br />
     <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
   </p>
   <p>Museo tai galleria
@@ -16,7 +16,7 @@
     <input type="text" name="time" size="20" value="{{ review.time }}" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
   </p>
   <p>Paikkakunta
-    <input type="text" name="location" size="10" value="{{ review.location }}" maxlength="50" required />
+    <input type="text" name="location" size="10" value="{{ review.location }}" maxlength="50" pattern="[a-äA-Ä\s]+" required />
   </p>
   <p>
     Arvio: <br />
