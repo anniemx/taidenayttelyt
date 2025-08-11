@@ -122,3 +122,8 @@ def update_comment(content, evaluation, comment_id):
 def remove_comment(comment_id):
     sql = "DELETE FROM comments WHERE id = ?"
     db.execute(sql, [comment_id])
+
+def average_score(review_id):
+    sql = "SELECT AVG(evaluation) FROM comments WHERE review_id = ?"
+    score = db.query(sql, [review_id])
+    return score[0][0]

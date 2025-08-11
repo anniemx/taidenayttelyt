@@ -45,7 +45,8 @@ def show_review(review_id):
         abort(404)
     classes = reviews.get_classes(review_id)
     comments = reviews.get_comments(review_id)
-    return render_template("show_review.html", review=review, classes=classes, comments=comments)
+    score = reviews.average_score(review_id)
+    return render_template("show_review.html", review=review, classes=classes, comments=comments, score=score)
 
 @app.route("/new_review")
 def new_review():

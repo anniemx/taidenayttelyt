@@ -40,6 +40,9 @@
 </p>
 
 <h3>Kommentit</h3>
+<p>
+ <b>Kommentoijien keskimääräinen arvosana:</b>  {{ score }}
+</p>
 {% for comment in comments %}
 <p>
   {{ comment.username }} ({{ comment.sent_at }}):

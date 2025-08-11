@@ -11,7 +11,7 @@
 <p>
   Käyttäjällä on yhteensä {{ comments | count }} kommenttia.
 </p>
-<h2>Arviot</h2>
+<h3>Arviot</h3>
 <ul>
   {% for review in reviews %}
   <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
