@@ -46,6 +46,10 @@ def show_review(review_id):
     classes = reviews.get_classes(review_id)
     comments = reviews.get_comments(review_id)
     score = reviews.average_score(review_id)
+    if score != None:
+        score = "{:.2f}".format(score)
+    else:
+        score = 0
     return render_template("show_review.html", review=review, classes=classes, comments=comments, score=score)
 
 @app.route("/new_review")
