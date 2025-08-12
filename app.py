@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, secrets
 from flask import Flask, flash
 from flask import abort, redirect, render_template, request, session
 import config
@@ -12,6 +12,12 @@ app.secret_key = config.secret_key
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
 @app.route("/")
@@ -61,6 +67,7 @@ def new_review():
 @app.route("/create_review", methods=["POST"])
 def create_review():
     require_login()
+    check_csrf()
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
@@ -117,6 +124,7 @@ def edit_review(review_id):
 
 @app.route("/update_review", methods=["POST"])
 def update_review():
+    check_csrf()
     review_id = request.form["review_id"]
     review = reviews.get_review(review_id)
     if not review:
@@ -170,6 +178,7 @@ def remove_review(review_id):
         return render_template("remove_review.html", review=review)
     if request.method == "POST":
         if "remove" in request.form:
+            check_csrf()
             reviews.remove_review(review_id)
             return redirect("/")
         else:
@@ -178,6 +187,7 @@ def remove_review(review_id):
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
     require_login()
+    check_csrf()
     content = request.form["content"]
     user_id = session["user_id"]
     review_id = request.form["review_id"]
@@ -202,6 +212,8 @@ def edit_comment(comment_id):
 
 @app.route("/update_comment", methods=["POST"])
 def update_comment():
+    require_login()
+    check_csrf()
     comment_id = request.form["comment_id"]
     comment = reviews.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
@@ -226,6 +238,7 @@ def remove_comment(comment_id):
     if request.method == "GET":
         return render_template("remove_comment.html", comment=comment)
     if request.method == "POST":
+        check_csrf()
         if "continue" in request.form:
             reviews.remove_comment(comment["id"])
             return redirect("/review/" + str(comment["review_id"]))
@@ -267,6 +280,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("VIRHE: väärä tunnus tai salasana")

@@ -45,6 +45,7 @@
     <input type="radio" name="evaluation" value="4" /> ****
     <input type="radio" name="evaluation" value="5" /> *****
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Luo arvio"/>
 </form>
 {% endblock %}

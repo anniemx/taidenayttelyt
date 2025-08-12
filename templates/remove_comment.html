@@ -6,7 +6,8 @@
 <h2>Kommentin poisto</h2>
 <p>Haluatko varmasti poistaa kommentin?</p>
 <form action="/remove_comment/{{ comment.id }}" method="post">
-  <input type="submit" name="continue" value="Jatka" />
   <input type="submit" name="cancel" value="Peruuta" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" name="continue" value="Jatka" />
 </form>
  {% endblock %}

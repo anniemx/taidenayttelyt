@@ -7,7 +7,8 @@
 <p>Arvio: <a href="/review/{{ review.id }}">{{ review.title }}</a></p>
 <p>Haluatko varmasti poistaa arvion?</p>
 <form action="/remove_review/{{ review.id }}" method="post">
-  <input type="submit" name="remove" value="Poista arvio" />
   <input type="submit" name="back" value="Peruuta" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" name="remove" value="Poista arvio" />
 </form>
 {% endblock %}
