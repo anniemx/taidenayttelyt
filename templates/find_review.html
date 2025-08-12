@@ -6,7 +6,8 @@
 <h2>Etsi arvio</h2>
 <form action="/find_review" method="get">
   <p>
-      Hakusana: <input type="text" name="query" value="{{ query }}">
+    <label for="query">Hakusana</label>: 
+    <input type="text" name="query" id="query" value="{{ query }}">
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Etsi">
