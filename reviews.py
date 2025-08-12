@@ -126,4 +126,4 @@ def remove_comment(comment_id):
 def average_score(review_id):
     sql = "SELECT AVG(evaluation) FROM comments WHERE review_id = ?"
     score = db.query(sql, [review_id])
-    return score[0][0]
+    return score[0][0] if score else 0
