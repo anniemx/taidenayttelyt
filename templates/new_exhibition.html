@@ -3,8 +3,8 @@
 {% block title %}Uusi arvio{% endblock %}
 
 {% block content %}
-<h2>Uusi arvio</h2>
-<form action="/create_review" method="post">
+<h2>Uusi näyttely</h2>
+<form action="/create_exhibition" method="post">
   <p>
     <label for="title">Näyttely:</label> <br />
     <input type="text" name="title" id="title" maxlength="50" required />
@@ -22,7 +22,7 @@
     <input type="text" name="location" id="location" size="10" maxlength="50" pattern="[a-äA-Ä\s]+" required />
   </p>
   <p>
-    <label for="description">Arvio:</label> <br />
+    <label for="description">Kuvaus:</label> <br />
     <textarea name="description" id="description" rows="8" cols="70" maxlength="1000" required></textarea>
   </p>
   {% for class in classes %}
@@ -36,16 +36,7 @@
     </select>
   </p>
   {% endfor %}
-
-  <p>Arvosana:</p>
-  <p>
-    <input type="radio" name="evaluation" value="1" required /> *
-    <input type="radio" name="evaluation" value="2" /> **
-    <input type="radio" name="evaluation" value="3" /> ***
-    <input type="radio" name="evaluation" value="4" /> ****
-    <input type="radio" name="evaluation" value="5" /> *****
-  </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" value="Luo arvio"/>
+  <input type="submit" value="Luo näyttely"/>
 </form>
 {% endblock %}

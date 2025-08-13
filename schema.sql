@@ -4,14 +4,13 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
-CREATE TABLE reviews (
+CREATE TABLE exhibitions (
     id INTEGER PRIMARY KEY,
     title TEXT,
     place TEXT,
     time TEXT,
     location TEXT,
     description TEXT,
-    evaluation INTEGER,
     user_id INTEGER REFERENCES users
 );
 
@@ -21,9 +20,9 @@ CREATE TABLE classes (
     value TEXT
 );
 
-CREATE TABLE review_classes (
+CREATE TABLE exhibition_classes (
     id INTEGER PRIMARY KEY,
-    review_id INTEGER REFERENCES reviews,
+    exhibition_id INTEGER REFERENCES exhibitions,
     title TEXT,
     value TEXT
 );
@@ -34,5 +33,5 @@ CREATE TABLE comments (
     sent_at TEXT,
     user_id INTEGER REFERENCES users,
     evaluation INTEGER,
-    review_id INTEGER REFERENCES reviews
+    exhibition_id INTEGER REFERENCES exhibitions
 );

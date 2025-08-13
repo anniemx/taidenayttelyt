@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}Näyttelyn poisto{% endblock %}
+
+{% block content %}
+<h2>Näyttelyn poisto</h2>
+<p>Näyttely: <a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></p>
+<p>Haluatko varmasti poistaa näyttelyn?</p>
+<form action="/remove_exhibition/{{ exhibition.id }}" method="post">
+  <input type="submit" name="back" value="Peruuta" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" name="remove" value="Poista näyttely" />
+</form>
+{% endblock %}

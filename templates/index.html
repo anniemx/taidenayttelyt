@@ -3,12 +3,12 @@
 {% block title %}Taidenäyttelyt{% endblock %}
 
 {% block content %}
-<h2>Arviot</h2>
+<h2>Näyttelyt</h2>
 
-{% for review in reviews %}
-<div class="review">
-<a href="/review/{{ review.id }}">{{ review.title }}</a></br>
-Arvostelija: <a href="/user/{{ reviews.user_id }}">{{ review.username }}</a>
+{% for exhibition in exhibitions %}
+<div class="exhibition">
+<a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></br>
+Arvostelija: <a href="/user/{{ exhibition.user_id }}">{{ exhibition.username }}</a>
 </div>
 {% endfor %}
 {% endblock %}

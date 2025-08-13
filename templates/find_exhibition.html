@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 
-{% block title %}Etsi arvio{% endblock %}
+{% block title %}Etsi näyttely{% endblock %}
 
 {% block content %}
-<h2>Etsi arvio</h2>
-<form action="/find_review" method="get">
+<h2>Etsi näyttely</h2>
+<form action="/find_exhibition" method="get">
   <p>
     <label for="query">Hakusana</label>: 
     <input type="text" name="query" id="query" value="{{ query }}">
@@ -14,9 +14,9 @@
 </form>
 {% if query %}
 <h3>Tulokset</h3>
-{% for review in results %}
-<div class="review">
-<a href="/review/{{ review.id }}">{{ review.title }}</a></br>
+{% for exhibition in results %}
+<div class="exhibition">
+<a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></br>
 </div>
 {% endfor %}
 {% endif %}

@@ -2,9 +2,10 @@ import sqlite3, secrets
 from flask import Flask, flash
 from flask import abort, redirect, render_template, request, session
 import config
-import reviews
+import exhibitions
 import re
 import users
+import markupsafe
 import db
 
 app = Flask(__name__)
@@ -20,52 +21,58 @@ def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
+@app.template_filter()
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
+
 @app.route("/")
 def index():
-    all_reviews = reviews.get_reviews()
-    return render_template("index.html", reviews=all_reviews)
+    all_exhibitions = exhibitions.get_exhibitions()
+    return render_template("index.html", exhibitions=all_exhibitions)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    reviews = users.get_reviews(user_id)
+    exhibitions = users.get_exhibitions(user_id)
     comments = users.get_comments(user_id)
-    return render_template("show_user.html", user=user, reviews=reviews, comments=comments)
+    return render_template("show_user.html", user=user, exhibitions=exhibitions, comments=comments)
 
-@app.route("/find_review")
-def find_review():
+@app.route("/find_exhibition")
+def find_exhibition():
     query = request.args.get("query")
     if query:
-        results = reviews.find_reviews(query)
+        results = exhibitions.find_exhibitions(query)
     else:
         query = ""
         results = []
-    return render_template("find_review.html", query=query, results=results)
+    return render_template("find_exhibition.html", query=query, results=results)
 
-@app.route("/review/<int:review_id>")
-def show_review(review_id):
-    review = reviews.get_review(review_id)
-    if not review:
+@app.route("/exhibition/<int:exhibition_id>")
+def show_exhibition(exhibition_id):
+    exhibition = exhibitions.get_exhibition(exhibition_id)
+    if not exhibition:
         abort(404)
-    classes = reviews.get_classes(review_id)
-    comments = reviews.get_comments(review_id)
-    score = reviews.average_score(review_id)
+    classes = exhibitions.get_classes(exhibition_id)
+    comments = exhibitions.get_comments(exhibition_id)
+    score = exhibitions.average_score(exhibition_id)
     if score != None:
         score = "{:.2f}".format(score)
     else:
         score = 0
-    return render_template("show_review.html", review=review, classes=classes, comments=comments, score=score)
+    return render_template("show_reviews.html", exhibition=exhibition, classes=classes, comments=comments, score=score)
 
-@app.route("/new_review")
-def new_review():
+@app.route("/new_exhibition")
+def new_exhibition():
     require_login()
-    classes = reviews.get_all_classes()
-    return render_template("new_review.html", classes=classes)
+    classes = exhibitions.get_all_classes()
+    return render_template("new_exhibition.html", classes=classes)
 
-@app.route("/create_review", methods=["POST"])
-def create_review():
+@app.route("/create_exhibition", methods=["POST"])
+def create_exhibition():
     require_login()
     check_csrf()
     title = request.form["title"]
@@ -83,13 +90,10 @@ def create_review():
         abort(403)
     description = request.form["description"]
     if not description or len(description) > 1000:
-        abort(403)
-    evaluation = request.form["evaluation"]
-    if not evaluation:
         abort(403)
     user_id = session["user_id"]
 
-    all_classes = reviews.get_all_classes()
+    all_classes = exhibitions.get_all_classes()
 
     classes = []
     for entry in request.form.getlist("classes"):
@@ -101,35 +105,35 @@ def create_review():
                 abort(403)
             classes.append((class_title, class_value))
 
-    review_id = reviews.add_review(title, place, time, location, description, evaluation, user_id, classes)
-    return redirect("/review/" + str(review_id))
+    exhibition_id = exhibitions.add_exhibition(title, place, time, location, description, user_id, classes)
+    return redirect("/exhibition/" + str(exhibition_id))
 
-@app.route("/edit_review/<int:review_id>")
-def edit_review(review_id):
+@app.route("/edit_exhibition/<int:exhibition_id>")
+def edit_exhibition(exhibition_id):
     require_login()
-    review = reviews.get_review(review_id)
-    if not review:
+    exhibition = exhibitions.get_exhibition(exhibition_id)
+    if not exhibition:
         abort(404)
-    if review["user_id"] != session["user_id"]:
+    if exhibition["user_id"] != session["user_id"]:
         abort(403)
-    all_classes = reviews.get_all_classes()
+    all_classes = exhibitions.get_all_classes()
     classes = {}
     for class1 in all_classes:
         classes[class1] = ""
-    for entry in reviews.get_classes(review_id):
+    for entry in exhibitions.get_classes(exhibition_id):
         classes[entry["title"]] = entry["value"]
 
-    return render_template("edit_review.html", review=review, classes=classes,
+    return render_template("edit_exhibition.html", exhibition=exhibition, classes=classes,
     all_classes=all_classes)
 
-@app.route("/update_review", methods=["POST"])
-def update_review():
+@app.route("/update_exhibition", methods=["POST"])
+def update_exhibition():
     check_csrf()
-    review_id = request.form["review_id"]
-    review = reviews.get_review(review_id)
-    if not review:
+    exhibition_id = request.form["review_id"]
+    exhibition = exhibitions.get_exhibition(exhibition_id)
+    if not exhibition:
         abort(404)
-    if review["user_id"] != session["user_id"]:
+    if exhibition["user_id"] != session["user_id"]:
         abort(403)
     title = request.form["title"]
     if not title or len(title) > 50:
@@ -147,11 +151,8 @@ def update_review():
     description = request.form["description"]
     if not description or len(description) > 1000:
         abort(403)
-    evaluation = request.form["evaluation"]
-    if not evaluation:
-        abort(403)
 
-    all_classes = reviews.get_all_classes()
+    all_classes = exhibitions.get_all_classes()
 
     classes = []
     for entry in request.form.getlist("classes"):
@@ -163,26 +164,26 @@ def update_review():
                 abort(403)
             classes.append((class_title, class_value))
 
-    reviews.update_review(review_id, title, place, time, location, description, evaluation, classes)
-    return redirect("/review/" + str(review_id))
+    exhibitions.update_exhibition(exhibition_id, title, place, time, location, description, classes)
+    return redirect("/exhibition/" + str(exhibition_id))
 
-@app.route("/remove_review/<int:review_id>", methods=["GET", "POST"])
-def remove_review(review_id):
+@app.route("/remove_exhibition/<int:exhibition_id>", methods=["GET", "POST"])
+def remove_exhibition(exhibition_id):
     require_login()
-    review = reviews.get_review(review_id)
-    if not review:
+    exhibition = exhibitions.get_exhibition(exhibition_id)
+    if not exhibition:
         abort(404)
-    if review["user_id"] != session["user_id"]:
+    if exhibition["user_id"] != session["user_id"]:
         abort(403)
     if request.method == "GET":
-        return render_template("remove_review.html", review=review)
+        return render_template("remove_exhibition.html", exhibition=exhibition)
     if request.method == "POST":
         if "remove" in request.form:
             check_csrf()
-            reviews.remove_review(review_id)
+            exhibitions.remove_exhibition(exhibition_id)
             return redirect("/")
         else:
-            return redirect("/review/" + str(review_id))
+            return redirect("/exhibition/" + str(exhibition_id))
 
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
@@ -190,19 +191,19 @@ def create_comment():
     check_csrf()
     content = request.form["content"]
     user_id = session["user_id"]
-    review_id = request.form["review_id"]
+    exhibition_id = request.form["exhibition_id"]
     if not content or len(content) > 1000:
         abort(403)
     evaluation = request.form["evaluation"]
     if not evaluation:
         abort(403)
 
-    reviews.add_comment(content, user_id, evaluation, review_id)
-    return redirect("/review/" + str(review_id))
+    exhibitions.add_comment(content, user_id, evaluation, exhibition_id)
+    return redirect("/exhibition/" + str(exhibition_id))
 
 @app.route("/edit_comment/<int:comment_id>", methods=["GET", "POST"])
 def edit_comment(comment_id):
-    comment = reviews.get_comment(comment_id)
+    comment = exhibitions.get_comment(comment_id)
 
     if request.method == "GET":
         return render_template("edit_comment.html", comment=comment)
@@ -215,7 +216,7 @@ def update_comment():
     require_login()
     check_csrf()
     comment_id = request.form["comment_id"]
-    comment = reviews.get_comment(comment_id)
+    comment = exhibitions.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
     content = request.form["content"]
@@ -224,13 +225,13 @@ def update_comment():
     evaluation = request.form["evaluation"]
     if not evaluation:
         abort(403)
-    reviews.update_comment(content, evaluation, comment_id)
-    return redirect("/review/" + str(comment["review_id"]))
+    exhibitions.update_comment(content, evaluation, comment_id)
+    return redirect("/exhibition/" + str(comment["exhibition_id"]))
 
 @app.route("/remove_comment/<int:comment_id>", methods=["GET", "POST"])
 def remove_comment(comment_id):
     require_login()
-    comment = reviews.get_comment(comment_id)
+    comment = exhibitions.get_comment(comment_id)
     if not comment:
         abort(404)
     if comment["user_id"] != session["user_id"]:
@@ -240,10 +241,10 @@ def remove_comment(comment_id):
     if request.method == "POST":
         check_csrf()
         if "continue" in request.form:
-            reviews.remove_comment(comment["id"])
-            return redirect("/review/" + str(comment["review_id"]))
+            exhibitions.remove_comment(comment["id"])
+            return redirect("/exhibition/" + str(comment["exhibition_id"]))
         else:
-            return redirect("/review/" + str(comment["review_id"]))
+            return redirect("/exhibition/" + str(comment["exhibition_id"]))
 
 @app.route("/register")
 def register():

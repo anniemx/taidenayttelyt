@@ -6,15 +6,15 @@
 
 <h2>Käyttäjä: {{ user.username }}</h2>
 <p>
-  Käyttäjällä on yhteensä {{ reviews | count }} arviota.
+  Käyttäjällä on lisännyt tiedot yhteensä {{ exhibitions | count }} näyttelystä.
 </p>
 <p>
-  Käyttäjällä on yhteensä {{ comments | count }} kommenttia.
+  Käyttäjällä on antanut yhteensä {{ comments | count }} arviota.
 </p>
-<h3>Arviot</h3>
+<h3>Näyttelyt</h3>
 <ul>
-  {% for review in reviews %}
-  <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
+  {% for exhibition in exhibitions %}
+  <li><a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}

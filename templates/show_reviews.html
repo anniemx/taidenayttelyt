@@ -1,29 +1,29 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ review.title }}{% endblock %}
+{% block title %}{{ exhibition.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ review.title }}</h2>
-{% if session.user_id == review.user_id %}
+<h2>{{ exhibition.title }}</h2>
+{% if session.user_id == exhibition.user_id %}
 <p>
-  <a href="/edit_review/{{ review.id }}">Muokkaa</a>
-  <a href="/remove_review/{{ review.id }}">Poista</a>
+  <a href="/edit_exhibition/{{ exhibition.id }}">Muokkaa</a>
+  <a href="/remove_exhibition/{{ exhibition.id }}">Poista</a>
 </p>
 {% endif %}
 <p>
-  <b>Museo tai galleria:</b> {{ review.place }}
+  <b>Museo tai galleria:</b> {{ exhibition.place }}
 </p>
 <p>
-  <b>Ajankohta:</b> {{ review.time }}
+  <b>Ajankohta:</b> {{ exhibition.time }}
 </p>
 <p>
-  <b>Paikkakunta:</b> {{ review.location }}
+  <b>Paikkakunta:</b> {{ exhibition.location }}
 </p>
 <p>
-  <b>Arvosana:</b> {{ review.evaluation }}
+  <b>Arvosana:</b> {{ exhibition.evaluation }}
 </p>
 <p>
-  <b>Arvostelija:</b> <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
+  <b>Lisääjä:</b> <a href="/user/{{ exhibition.user_id }}">{{ exhibition.username }}</a>
 </p>
 {% if classes %}
 <p>
@@ -36,12 +36,12 @@
 </p>
 {% endif %}
 <p>
-  <b>Arvio:</b> {{ review.description | show_lines }}
+  <b>Kuvaus:</b> {{ exhibition.description | show_lines }}
 </p>
 
-<h3>Kommentit</h3>
+<h3>Arviot</h3>
 <p>
- <b>Kommentoijien keskimääräinen arvosana:</b>  {{ score }}
+ <b>Arvioiden keskimääräinen arvosana:</b>  {{ score }}
 </p>
 {% for comment in comments %}
 <p>
@@ -62,13 +62,13 @@
 <hr />
 {% endfor %}
 {% if session.user_id %}
-<h4>Uusi kommentti</h4>
+<h4>Uusi arvio</h4>
 <form action="/create_comment" method="post">
   <p>
-    <label for="content">Kommentti:</label> <br />
+    <label for="content">Arvio:</label> <br />
     <textarea name="content" id="content" rows="8" cols="70" maxlength="1000" required></textarea>
   </p>
-  <p>Anna oma arvosana:</p>
+  <p>Anna arvosana:</p>
     <p>
       <input type="radio" name="evaluation" value="1" required /> *
       <input type="radio" name="evaluation" value="2" /> **
@@ -76,7 +76,7 @@
       <input type="radio" name="evaluation" value="4" /> ****
       <input type="radio" name="evaluation" value="5" /> *****
     </p>
-    <input type="hidden" name="review_id" value = "{{ review.id }}" />
+    <input type="hidden" name="exhibition_id" value = "{{ exhibition.id }}" />
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä kommentti"/>
 </form>

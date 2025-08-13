@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}Näyttelyn muokkaus{% endblock %}
+
+{% block content %}
+<h2>Näyttelyn tietojen muokkaus</h2>
+<form action="/update_exhibition" method="post">
+  <p>
+    <label for="title">Näyttely:</label> <br />
+    <input type="text" name="title" id="title" value="{{ exhibition.title }}" maxlength="50" required />
+  </p>
+  <p>
+    <label for="place">Museo tai galleria</label>
+    <input type="text" name="place" id="place" size="15" value="{{ exhibition.place }}" maxlength="50" required />
+  </p>
+  <p>
+    <label for="time">Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY</label>
+    <input type="text" name="time" id="time" size="20" value="{{ exhibition.time }}" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
+  </p>
+  <p>
+    <label for="location">Paikkakunta</label>
+    <input type="text" name="location" id="location" size="10" value="{{ exhibition.location }}" maxlength="50" pattern="[a-äA-Ä\s]+" required />
+  </p>
+  <p>
+    <label for="description">Kuvaus:</label> <br />
+    <textarea name="description" id="description" rows="8" cols="70" maxlength="1000" required>{{ exhibition.description | show_lines }}</textarea>
+  </p>
+  {% for class in classes %}
+  <p>
+    <label for="class{{ class }}">{{ class }}</label>: <br />
+    <select name="classes" id="class{{ class }}">
+      <option value="">(valitse)</option>
+    {% for option in all_classes[class] %}
+      {% if classes[class] == option %}
+      <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
+      {% else %}
+      <option value="{{ class }}:{{ option }}">{{ option }}</option>
+      {% endif %}
+    {% endfor %}
+    </select>
+  </p>
+  {% endfor %}
+  <input type="hidden" name="exhibition_id" value="{{ exhibition.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" value="Päivitä arvio" />
+</form>
+<p>
+  <a href="/exhibition/{{ exhibition.id }}">Takaisin arvioon: {{ exhibition.title }}</a>
+</p>
+{% endblock %}
