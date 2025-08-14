@@ -6,7 +6,6 @@ import exhibitions
 import re
 import users
 import markupsafe
-import db
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -253,7 +252,13 @@ def register():
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
+    if not username or len(username) > 50:
+        flash("VIRHE: käyttäjätunnus on tyhjä tai liian pitkä")
+        return redirect("/register")
     password1 = request.form["password1"]
+    if not password1:
+        flash("VIRHE: salasana ei voi olla tyhjä")
+        return redirect("/register")
     password2 = request.form["password2"]
     if password1 != password2:
         flash("VIRHE: salasanat eivät ole samat")
@@ -266,7 +271,7 @@ def create():
         return redirect("/register")
 
     flash("Tunnus luotu")
-    return redirect("/")
+    return redirect("/login")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
