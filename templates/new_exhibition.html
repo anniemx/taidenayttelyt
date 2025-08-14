@@ -3,40 +3,45 @@
 {% block title %}Uusi arvio{% endblock %}
 
 {% block content %}
-<h2>Uusi näyttely</h2>
-<form action="/create_exhibition" method="post">
-  <p>
-    <label for="title">Näyttely:</label> <br />
-    <input type="text" name="title" id="title" maxlength="50" required />
-  </p>
-  <p>
-    <label for="place">Museo tai galleria</label>
-    <input type="text" name="place" id="place" size="15" maxlength="50" required />
-  </p>
-  <p>
-    <label for="time">Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY</label>
-    <input type="text" name="time" id="time" size="20" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
-  </p>
-  <p>
-    <label for="location">Paikkakunta</label>
-    <input type="text" name="location" id="location" size="10" maxlength="50" pattern="[a-äA-Ä\s]+" required />
-  </p>
-  <p>
-    <label for="description">Kuvaus:</label> <br />
-    <textarea name="description" id="description" rows="8" cols="70" maxlength="1000" required></textarea>
-  </p>
-  {% for class in classes %}
-  <p>
-    <label for="class{{ class }}">{{ class }}</label>: <br />
-    <select name="classes" id="class{{ class }}">
-      <option value="">(valitse)</option>
-      {% for option in classes[class] %}
-      <option value="{{ class }}:{{ option }}">{{ option }}</option>
-      {% endfor %}
-    </select>
-  </p>
-  {% endfor %}
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" value="Luo näyttely"/>
-</form>
+<div class="header">
+  <h2>Uusi näyttely</h2>
+</div>
+
+<div class="exhibition_infobar">
+  <form action="/create_exhibition" method="post">
+    <p>
+      <label for="title">Näyttely:</label> <br />
+      <input type="text" name="title" id="title" maxlength="50" required />
+    </p>
+    <p>
+      <label for="place">Museo tai galleria:</label>
+      <input type="text" name="place" id="place" size="15" maxlength="50" required />
+    </p>
+    <p>
+      <label for="time">Ajankohta, anna muodossa DD.MM.YYYY-DD.MM.YYYY:</label>
+      <input type="text" name="time" id="time" size="20" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$" required />
+    </p>
+    <p>
+      <label for="location">Paikkakunta:</label>
+      <input type="text" name="location" id="location" size="10" maxlength="50" pattern="[a-äA-Ä\s]+" required />
+    </p>
+    <p>
+      <label for="description">Kuvaus:</label> <br />
+      <textarea name="description" id="description" rows="8" cols="70" maxlength="1000" required></textarea>
+    </p>
+    {% for class in classes %}
+    <p>
+      <label for="class{{ class }}">{{ class }}</label>: <br />
+      <select name="classes" id="class{{ class }}">
+        <option value="">(valitse)</option>
+        {% for option in classes[class] %}
+        <option value="{{ class }}:{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </select>
+    </p>
+    {% endfor %}
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Luo näyttely"/>
+  </form>
+</div>
 {% endblock %}

@@ -3,83 +3,90 @@
 {% block title %}{{ exhibition.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ exhibition.title }}</h2>
-{% if session.user_id == exhibition.user_id %}
-<p>
-  <a href="/edit_exhibition/{{ exhibition.id }}">Muokkaa</a>
-  <a href="/remove_exhibition/{{ exhibition.id }}">Poista</a>
-</p>
-{% endif %}
-<p>
-  <b>Museo tai galleria:</b> {{ exhibition.place }}
-</p>
-<p>
-  <b>Ajankohta:</b> {{ exhibition.time }}
-</p>
-<p>
-  <b>Paikkakunta:</b> {{ exhibition.location }}
-</p>
-<p>
-  <b>Arvosana:</b> {{ exhibition.evaluation }}
-</p>
-<p>
-  <b>Lisääjä:</b> <a href="/user/{{ exhibition.user_id }}">{{ exhibition.username }}</a>
-</p>
-{% if classes %}
-<p>
-  <b>Luokittelut:</b>
-  <ul>
-    {% for class in classes %}
-    <li>{{ class.title }}: {{ class.value }}</li>
-    {% endfor %}
-  </ul>
-</p>
-{% endif %}
-<p>
-  <b>Kuvaus:</b> {{ exhibition.description | show_lines }}
-</p>
+<div class="header">
+  <h2>{{ exhibition.title }}</h2>
+</div>
+<div class="exhibition_infobar">
+  {% if session.user_id == exhibition.user_id %}
+  <p>
+    <a href="/edit_exhibition/{{ exhibition.id }}">Muokkaa</a>
+    <a href="/remove_exhibition/{{ exhibition.id }}">Poista</a>
+  </p>
+  {% endif %}
+  <p>
+    <b>Museo tai galleria:</b> {{ exhibition.place }}
+  </p>
+  <p>
+    <b>Ajankohta:</b> {{ exhibition.time }}
+  </p>
+  <p>
+    <b>Paikkakunta:</b> {{ exhibition.location }}
+  </p>
+  <p>
+    <b>Lisääjä:</b> <a href="/user/{{ exhibition.user_id }}">{{ exhibition.username }}</a>
+  </p>
+  {% if classes %}
+  <p>
+    <b>Luokittelut:</b>
+    <ul>
+      {% for class in classes %}
+      <li>{{ class.title }}: {{ class.value }}</li>
+      {% endfor %}
+    </ul>
+  </p>
+  {% endif %}
+  <p>
+    <b>Kuvaus:</b> {{ exhibition.description | show_lines }}
+  </p>
+</div>
 
-<h3>Arviot</h3>
+<div class="header">
+  <h3>Arviot</h3>
+</div>
 <p>
  <b>Arvioiden keskimääräinen arvosana:</b>  {{ score }}
 </p>
+
 {% for comment in comments %}
-<p>
-  {{ comment.username }} ({{ comment.sent_at }}):
-</p>
-<p>
-  {{ comment.content | show_lines }}
-</p>
-<p>
-  Arvosana: {{ comment.evaluation }}
-</p>
-{% if comment.user_id == session.user_id %}
-<p>
-  <a href="/edit_comment/{{ comment.id }}">Muokkaa</a>
-  <a href="/remove_comment/{{ comment.id }}">Poista</a>
-</p>
-{% endif %}
-<hr />
-{% endfor %}
-{% if session.user_id %}
-<h4>Uusi arvio</h4>
-<form action="/create_comment" method="post">
+<div class="comment">
   <p>
-    <label for="content">Arvio:</label> <br />
-    <textarea name="content" id="content" rows="8" cols="70" maxlength="1000" required></textarea>
+    {{ comment.username }} ({{ comment.sent_at }}):
   </p>
-  <p>Anna arvosana:</p>
+  <p>
+    {{ comment.content | show_lines }}
+  </p>
+  <p>
+    Arvosana: {{ comment.evaluation }}
+  </p>
+  {% if comment.user_id == session.user_id %}
+  <p>
+    <a href="/edit_comment/{{ comment.id }}">Muokkaa</a>
+    <a href="/remove_comment/{{ comment.id }}">Poista</a>
+  </p>
+  {% endif %}
+</div>
+{% endfor %}
+
+<div class="comment">
+  {% if session.user_id %}
+  <h4>Uusi arvio</h4>
+  <form action="/create_comment" method="post">
     <p>
-      <input type="radio" name="evaluation" value="1" required /> *
-      <input type="radio" name="evaluation" value="2" /> **
-      <input type="radio" name="evaluation" value="3" /> ***
-      <input type="radio" name="evaluation" value="4" /> ****
-      <input type="radio" name="evaluation" value="5" /> *****
+      <label for="content">Arvio:</label> <br />
+      <textarea name="content" id="content" rows="8" cols="70" maxlength="1000" required></textarea>
     </p>
-    <input type="hidden" name="exhibition_id" value = "{{ exhibition.id }}" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Lähetä kommentti"/>
-</form>
-<hr />
-{% endif %}
+    <p>Anna arvosana:</p>
+      <p>
+        <input type="radio" name="evaluation" value="1" required /> *
+        <input type="radio" name="evaluation" value="2" /> **
+        <input type="radio" name="evaluation" value="3" /> ***
+        <input type="radio" name="evaluation" value="4" /> ****
+        <input type="radio" name="evaluation" value="5" /> *****
+      </p>
+      <input type="hidden" name="exhibition_id" value = "{{ exhibition.id }}" />
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+      <input type="submit" value="Lähetä kommentti"/>
+  </form>
+  {% endif %}
+</div>
 {% endblock %}

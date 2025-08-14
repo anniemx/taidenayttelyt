@@ -11,10 +11,20 @@
 <p>
   Käyttäjällä on antanut yhteensä {{ comments | count }} arviota.
 </p>
-<h3>Näyttelyt</h3>
-<ul>
+<div class="header">
+  <h3>Näyttelyt</h3>
+</div>
+<div class="exhibition">
   {% for exhibition in exhibitions %}
-  <li><a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></li>
+  <a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a>
   {% endfor %}
-</ul>
+</div>
+<div class="header">
+  <h3>Arviot</h3>
+</div>
+<div class="comment">
+  {% for comment in comments %}
+  <a href="/exhibition/{{ comment.exhibition_id }}">{{ comment.content }}</a>
+  {% endfor %}
+</div>
 {% endblock %}

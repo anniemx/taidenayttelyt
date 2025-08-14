@@ -1,13 +1,17 @@
 {% extends "layout.html" %}
 
-{% block title %}Kommentin poisto{% endblock %}
+{% block title %}Arvion poisto{% endblock %}
 
 {% block content %}
-<h2>Kommentin poisto</h2>
-<p>Haluatko varmasti poistaa kommentin?</p>
-<form action="/remove_comment/{{ comment.id }}" method="post">
-  <input type="submit" name="cancel" value="Peruuta" />
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" name="continue" value="Jatka" />
-</form>
+<div class="header">
+  <h2>Arvion poisto</h2>
+</div>
+<p>Haluatko varmasti poistaa arvion?</p>
+<div class="comment">
+  <form action="/remove_comment/{{ comment.id }}" method="post">
+    <input type="submit" name="cancel" value="Peruuta" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" name="continue" value="Jatka" />
+  </form>
+</div>
  {% endblock %}

@@ -7,24 +7,30 @@
 </head>
 
 <body>
-  <h1>Taidenäyttelyt</h1>
+  <div class="header">
+    <h1>Taidenäyttelyt</h1>
+  </div>
+  <div class="nav">
+    <nav>
+      <ul>
+        <li><a class="nav_box" href="/">Etusivu</a></li>
+        <li><a class="nav_box" href="/find_exhibition">Etsi näyttely</a></li>
+        {% if session.user_id %}
+        <li><a class="nav_box" href="/new_exhibition">Uusi näyttely</a></li>
+        <li><a class="nav_box" href="/logout">Kirjaudu ulos</a></li>
+        {% else %}
+        <li><a class="nav_box" href="/login">Kirjaudu sisään</a></li>
+        <li><a class="nav_box" href="/register">Luo tunnus</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
   {% if session.user_id %}
   <p>
     Olet kirjautunut nimellä <a href="/user/{{ session.user_id }}">{{ session.username }}</a>
   </p>
   {% endif %}
-
-  <p>
-    <a href="/">Etusivu</a> |
-    <a href="/find_exhibition">Etsi näyttely</a> |
-  {% if session.user_id %}
-    <a href="/new_exhibition">Uusi näyttely</a> |
-    <a href="/logout">Kirjaudu ulos</a>
-  {% else %}
-    <a href="/login">Kirjaudu sisään</a> |
-    <a href="/register">Luo tunnus</a>
-  {% endif %}
-  </p>
+  
   {% for message in get_flashed_messages() %}
   <div class="info">
     {{ message }}

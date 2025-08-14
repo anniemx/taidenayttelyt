@@ -3,17 +3,24 @@
 {% block title %}Etsi näyttely{% endblock %}
 
 {% block content %}
-<h2>Etsi näyttely</h2>
-<form action="/find_exhibition" method="get">
-  <p>
-    <label for="query">Hakusana</label>: 
-    <input type="text" name="query" id="query" value="{{ query }}">
-  </p>
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" value="Etsi">
-</form>
+<div class="header">
+  <h2>Etsi näyttely</h2>
+</div>
+<div class="comment">
+  <form action="/find_exhibition" method="get">
+    <p>
+      <label for="query">Hakusana</label>: 
+      <input type="text" name="query" id="query" value="{{ query }}">
+    </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Etsi">
+  </form>
+</div>
+
 {% if query %}
-<h3>Tulokset</h3>
+<div class="header">
+  <h3>Tulokset</h3>
+</div>
 {% for exhibition in results %}
 <div class="exhibition">
 <a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></br>

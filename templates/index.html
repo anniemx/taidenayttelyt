@@ -3,12 +3,14 @@
 {% block title %}Taidenäyttelyt{% endblock %}
 
 {% block content %}
-<h2>Näyttelyt</h2>
+<div class="header">
+    <h2>Näyttelyt</h2>
+</div>
 
 {% for exhibition in exhibitions %}
 <div class="exhibition">
-<a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></br>
-Arvostelija: <a href="/user/{{ exhibition.user_id }}">{{ exhibition.username }}</a>
+    <b><a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a></b> </br>
+    Arvostelija: <a href="/user/{{ exhibition.user_id }}">{{ exhibition.username }}</a>
 </div>
 {% endfor %}
 {% endblock %}
