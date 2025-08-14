@@ -12,10 +12,14 @@
     <input type="hidden" name="review_id" value="{{ comment.exhibition_id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <p>
+      <label for="title">Otsikko:</label> <br />
+      <textarea name="title" id="title" size="10" maxlength="50" required>{{ comment.title }}</textarea>
+    </p>
+    <p>
       <label for="content">Arvio:</label> <br />
       <textarea name="content" id="content" rows="8" cols="70" maxlength="1000" required>{{ comment.content | show_lines }}</textarea>
     </p>
-  <p>Arvosana:</p>
+    <p>Arvosana:</p>
     <p>
       <input type="radio" name="evaluation" value="1" required /> *
       <input type="radio" name="evaluation" value="2" /> **

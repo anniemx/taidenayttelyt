@@ -53,6 +53,9 @@
     {{ comment.username }} ({{ comment.sent_at }}):
   </p>
   <p>
+    <b>{{ comment.title }}</b>
+  </p>
+  <p>
     {{ comment.content | show_lines }}
   </p>
   <p>
@@ -71,6 +74,10 @@
   {% if session.user_id %}
   <h4>Uusi arvio</h4>
   <form action="/create_comment" method="post">
+    <p>
+      <label for="title">Otsikko:</label> <br />
+      <textarea name="title" id="title" size="10" maxlength="50" required></textarea>
+    </p>
     <p>
       <label for="content">Arvio:</label> <br />
       <textarea name="content" id="content" rows="8" cols="70" maxlength="1000" required></textarea>

@@ -79,13 +79,14 @@ def find_exhibitions(query):
     like = "%" + query + "%"
     return db.query(sql, [like, like, like, like, like])
 
-def add_comment(content, user_id, evaluation, exhibition_id):
-    sql = """INSERT INTO comments (content, sent_at, user_id, evaluation, exhibition_id)
-             VALUES (?, datetime('now'), ?, ?, ?)"""
-    db.execute(sql, [content, user_id, evaluation, exhibition_id])
+def add_comment(title, content, user_id, evaluation, exhibition_id):
+    sql = """INSERT INTO comments (title, content, sent_at, user_id, evaluation, exhibition_id)
+             VALUES (?, ?, datetime('now'), ?, ?, ?)"""
+    db.execute(sql, [title, content, user_id, evaluation, exhibition_id])
 
 def get_comments(exhibition_id):
     sql = """SELECT comments.id,
+                    comments.title,
                     comments.content,
                     comments.sent_at,
                     comments.evaluation,
@@ -100,6 +101,7 @@ def get_comments(exhibition_id):
 
 def get_comment(comment_id):
     sql = """SELECT comments.id,
+                    comments.title,
                     comments.content,
                     comments.sent_at,
                     comments.evaluation,
@@ -113,9 +115,9 @@ def get_comment(comment_id):
     result = db.query(sql, [comment_id])
     return result[0]
 
-def update_comment(content, evaluation, comment_id):
-    sql = "UPDATE comments SET content = ?, evaluation = ? WHERE id = ?"
-    db.execute(sql, [content, evaluation, comment_id])
+def update_comment(title, content, evaluation, comment_id):
+    sql = "UPDATE comments SET title = ?, content = ?, evaluation = ? WHERE id = ?"
+    db.execute(sql, [title, content, evaluation, comment_id])
 
 def remove_comment(comment_id):
     sql = "DELETE FROM comments WHERE id = ?"

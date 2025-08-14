@@ -188,6 +188,9 @@ def remove_exhibition(exhibition_id):
 def create_comment():
     require_login()
     check_csrf()
+    title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     content = request.form["content"]
     user_id = session["user_id"]
     exhibition_id = request.form["exhibition_id"]
@@ -197,7 +200,7 @@ def create_comment():
     if not evaluation:
         abort(403)
 
-    exhibitions.add_comment(content, user_id, evaluation, exhibition_id)
+    exhibitions.add_comment(title, content, user_id, evaluation, exhibition_id)
     return redirect("/exhibition/" + str(exhibition_id))
 
 @app.route("/edit_comment/<int:comment_id>", methods=["GET", "POST"])
@@ -218,13 +221,16 @@ def update_comment():
     comment = exhibitions.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
+    title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     content = request.form["content"]
     if not content or len(content) > 1000:
         abort(403)
     evaluation = request.form["evaluation"]
     if not evaluation:
         abort(403)
-    exhibitions.update_comment(content, evaluation, comment_id)
+    exhibitions.update_comment(title, content, evaluation, comment_id)
     return redirect("/exhibition/" + str(comment["exhibition_id"]))
 
 @app.route("/remove_comment/<int:comment_id>", methods=["GET", "POST"])

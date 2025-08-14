@@ -33,5 +33,6 @@ CREATE TABLE comments (
     sent_at TEXT,
     user_id INTEGER REFERENCES users,
     evaluation INTEGER,
-    exhibition_id INTEGER REFERENCES exhibitions
+    exhibition_id INTEGER REFERENCES exhibitions,
+    title TEXT
 );
