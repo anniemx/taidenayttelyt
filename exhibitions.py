@@ -79,6 +79,15 @@ def find_exhibitions(query):
     like = "%" + query + "%"
     return db.query(sql, [like, like, like, like, like])
 
+def check_title(query):
+    sql = """SELECT id, title
+             FROM exhibitions
+             WHERE title LIKE ?
+             ORDER BY id DESC"""
+    like = "%" + query + "%"
+    result = db.query(sql, [like])
+    return result[0]
+
 def add_comment(title, content, user_id, evaluation, exhibition_id):
     sql = """INSERT INTO comments (title, content, sent_at, user_id, evaluation, exhibition_id)
              VALUES (?, ?, datetime('now'), ?, ?, ?)"""

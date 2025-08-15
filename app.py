@@ -80,6 +80,10 @@ def create_exhibition():
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
+    check = exhibitions.check_title(title)
+    if check:
+        flash("Näyttely on jo lisätty. Anna oma arviosi täällä.")
+        return redirect("/exhibition/"+ str(check["id"]))
     place = request.form["place"]
     if not place or len(place) > 50:
         abort(403)
@@ -131,15 +135,20 @@ def edit_exhibition(exhibition_id):
 @app.route("/update_exhibition", methods=["POST"])
 def update_exhibition():
     check_csrf()
-    exhibition_id = request.form["review_id"]
+    exhibition_id = request.form["exhibition_id"]
     exhibition = exhibitions.get_exhibition(exhibition_id)
     if not exhibition:
         abort(404)
     if exhibition["user_id"] != session["user_id"]:
         abort(403)
+    title_check = exhibition["title"]
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
+    check = exhibitions.check_title(title)
+    if check and check["title"] != title_check:
+        flash("Näyttely on jo lisätty. Anna oma arviosi täällä.")
+        return redirect("/exhibition/"+ str(check["id"]))
     place = request.form["place"]
     if not place or len(place) > 50:
         abort(403)
