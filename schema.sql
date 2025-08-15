@@ -30,10 +30,10 @@ CREATE TABLE exhibition_classes (
 
 CREATE TABLE comments (
     id INTEGER PRIMARY KEY,
+    title TEXT,
     content TEXT,
     sent_at TEXT,
     user_id INTEGER REFERENCES users,
     evaluation INTEGER,
-    exhibition_id INTEGER REFERENCES exhibitions,
-    title TEXT
+    exhibition_id INTEGER REFERENCES exhibitions
 );
