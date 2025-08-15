@@ -39,9 +39,10 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    exhibitions = users.get_exhibitions(user_id)
+    user_exhibitions = users.get_exhibitions(user_id)
     comments = users.get_comments(user_id)
-    return render_template("show_user.html", user=user, exhibitions=exhibitions, comments=comments)
+    return render_template("show_user.html", user=user, exhibitions=user_exhibitions,
+                            comments=comments)
 
 @app.route("/find_exhibition")
 def find_exhibition():
@@ -61,11 +62,12 @@ def show_exhibition(exhibition_id):
     classes = exhibitions.get_classes(exhibition_id)
     comments = exhibitions.get_comments(exhibition_id)
     score = exhibitions.average_score(exhibition_id)
-    if score != None:
+    if score is not None:
         score = "{:.2f}".format(score)
     else:
         score = 0
-    return render_template("show_reviews.html", exhibition=exhibition, classes=classes, comments=comments, score=score)
+    return render_template("show_reviews.html", exhibition=exhibition, classes=classes,
+                            comments=comments, score=score)
 
 @app.route("/new_exhibition")
 def new_exhibition():
@@ -111,7 +113,8 @@ def create_exhibition():
                 abort(403)
             classes.append((class_title, class_value))
 
-    exhibition_id = exhibitions.add_exhibition(title, place, time, location, description, user_id, classes)
+    exhibition_id = exhibitions.add_exhibition(title, place, time, location,
+                                                description, user_id, classes)
     return redirect("/exhibition/" + str(exhibition_id))
 
 @app.route("/edit_exhibition/<int:exhibition_id>")
@@ -193,8 +196,7 @@ def remove_exhibition(exhibition_id):
             check_csrf()
             exhibitions.remove_exhibition(exhibition_id)
             return redirect("/")
-        else:
-            return redirect("/exhibition/" + str(exhibition_id))
+        return redirect("/exhibition/" + str(exhibition_id))
 
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
@@ -260,8 +262,7 @@ def remove_comment(comment_id):
         if "continue" in request.form:
             exhibitions.remove_comment(comment["id"])
             return redirect("/exhibition/" + str(comment["exhibition_id"]))
-        else:
-            return redirect("/exhibition/" + str(comment["exhibition_id"]))
+        return redirect("/exhibition/" + str(comment["exhibition_id"]))
 
 @app.route("/register")
 def register():
@@ -339,9 +340,8 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
-        else:
-            flash("VIRHE: väärä tunnus tai salasana")
-            return redirect("/login")
+        flash("VIRHE: väärä tunnus tai salasana")
+        return redirect("/login")
 
 @app.route("/logout")
 def logout():

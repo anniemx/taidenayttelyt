@@ -1,5 +1,5 @@
-import db
 from werkzeug.security import generate_password_hash, check_password_hash
+import db
 
 def get_user(user_id):
     sql = "SELECT id, username, image IS NOT NULL has_image FROM users WHERE id = ?"
@@ -11,7 +11,10 @@ def get_exhibitions(user_id):
     return db.query(sql, [user_id])
 
 def get_comments(user_id):
-    sql = "SELECT id, title, content, exhibition_id FROM comments WHERE user_id = ? ORDER BY id DESC"
+    sql = """SELECT id, title, content, exhibition_id
+             FROM comments
+             WHERE user_id = ?
+             ORDER BY id DESC"""
     return db.query(sql, [user_id])
 
 def create_user(username, password):
@@ -38,5 +41,4 @@ def check_login(username, password):
     password_hash = result[0]["password_hash"]
     if check_password_hash(password_hash, password):
         return user_id
-    else:
-        return None
+    return None

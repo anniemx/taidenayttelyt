@@ -17,8 +17,8 @@ def add_exhibition(title, place, time, location, description, user_id, classes):
 
     exhibition_id = db.last_insert_id()
     sql = "INSERT INTO exhibition_classes (exhibition_id, title, value) VALUES (?, ?, ?)"
-    for title, value in classes:
-        db.execute(sql, [exhibition_id, title, value])
+    for class_title, class_value in classes:
+        db.execute(sql, [exhibition_id, class_title, class_value])
     return exhibition_id
 
 def get_classes(exhibition_id):
@@ -60,8 +60,8 @@ def update_exhibition(exhibition_id, title, place, time, location, description, 
     db.execute(sql, [exhibition_id])
 
     sql = "INSERT INTO exhibition_classes (exhibition_id, title, value) VALUES (?, ?, ?)"
-    for title, value in classes:
-        db.execute(sql, [exhibition_id, title, value])
+    for class_title, class_value in classes:
+        db.execute(sql, [exhibition_id, class_title, class_value])
 
 def remove_exhibition(exhibition_id):
     sql = "DELETE FROM comments WHERE exhibition_id = ?"
@@ -86,7 +86,7 @@ def check_title(query):
              ORDER BY id DESC"""
     like = "%" + query + "%"
     result = db.query(sql, [like])
-    return result[0]
+    return result[0] if result else None
 
 def add_comment(title, content, user_id, evaluation, exhibition_id):
     sql = """INSERT INTO comments (title, content, sent_at, user_id, evaluation, exhibition_id)
@@ -136,3 +136,4 @@ def average_score(exhibition_id):
     sql = "SELECT AVG(evaluation) FROM comments WHERE exhibition_id = ?"
     score = db.query(sql, [exhibition_id])
     return score[0][0] if score else 0
+
