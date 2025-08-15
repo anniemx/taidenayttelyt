@@ -1,13 +1,13 @@
 # Taidenäyttelyt
 
-Sovellus tarjoaa yhteisöllisen alustan taidenäyttelyjen arvosteluun ja suosittelemiseen sekä tietoja taidenäyttelyistä. 
+Sovellus tarjoaa yhteisöllisen alustan taidenäyttelyjen arvosteluun ja suosittelemiseen sekä tietoja taidenäyttelyistä.
 
 Sovelluksessa on seuraavat ominaisuudet:
 
-* Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
+* Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen. Käyttäjä voi lisätä profiilikuvan omassa profiilissaan.
 * Käyttäjä pystyy lisäämään sovellukseen taidenäyttelyjä niiden perustietoineen. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään taidenäyttelyjä.
 * Käyttäjä näkee sovellukseen lisätyt taidenäyttelyt. Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät näyttelyt.
-* Käyttäjä pystyy etsimään näyttelyjä hakusanalla, paikkakunnalla, museon tai gallerian nimellä tai arvosteluasteikolla (1-5 tähteä). Käyttäjä pystyy hakemaan sekä itse lisäämiään että muiden käyttäjien lisäämiä näyttelyjä.
+* Käyttäjä pystyy etsimään näyttelyjä hakusanalla, paikkakunnalla, museon tai gallerian nimellä. Käyttäjä pystyy hakemaan sekä itse lisäämiään että muiden käyttäjien lisäämiä näyttelyjä.
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja ja käyttäjän lisäämät näyttelyt.
 * Käyttäjä pystyy valitsemaan näyttelylle yhden tai useamman luokittelun. Mahdolliset luokat ovat tietokannassa.
 * Käyttäjä voi lisätä arvion ja oman arvosanansa arvosteluasteikolla 1-5 tähteä taidenäyttelyyn. Näyttelyistä on siten mahdollista koostaa yhteinen keskiarvo, jota voidaan käyttää yleisen mielipiteen indikaattorina.
