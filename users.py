@@ -11,7 +11,7 @@ def get_exhibitions(user_id):
     return db.query(sql, [user_id])
 
 def get_comments(user_id):
-    sql = "SELECT id, content FROM comments WHERE user_id = ? ORDER BY id DESC"
+    sql = "SELECT id, title, content, exhibition_id FROM comments WHERE user_id = ? ORDER BY id DESC"
     return db.query(sql, [user_id])
 
 def create_user(username, password):

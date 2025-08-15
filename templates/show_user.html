@@ -6,25 +6,25 @@
 
 <h2>Käyttäjä: {{ user.username }}</h2>
 <p>
-  Käyttäjällä on lisännyt tiedot yhteensä {{ exhibitions | count }} näyttelystä.
+  Käyttäjä on lisännyt tiedot yhteensä {{ exhibitions | count }} näyttelystä.
 </p>
 <p>
-  Käyttäjällä on antanut yhteensä {{ comments | count }} arviota.
+  Käyttäjä on antanut yhteensä {{ comments | count }} arviota.
 </p>
 <div class="header">
   <h3>Näyttelyt</h3>
 </div>
+{% for exhibition in exhibitions %}
 <div class="exhibition">
-  {% for exhibition in exhibitions %}
   <a href="/exhibition/{{ exhibition.id }}">{{ exhibition.title }}</a>
-  {% endfor %}
 </div>
+{% endfor %}
 <div class="header">
   <h3>Arviot</h3>
 </div>
+{% for comment in comments %}
 <div class="comment">
-  {% for comment in comments %}
-  <a href="/exhibition/{{ comment.exhibition_id }}">{{ comment.content }}</a>
-  {% endfor %}
+  <a href="/exhibition/{{ comment.exhibition_id }}">{{ comment.title }}</a>
 </div>
+{% endfor %}
 {% endblock %}
