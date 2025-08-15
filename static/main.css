@@ -87,3 +87,7 @@ a:hover {
   padding: 0.25em;
   border-radius: 10px;
 }
+
+img {
+  border-radius: 25%;
+}

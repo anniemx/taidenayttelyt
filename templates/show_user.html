@@ -4,7 +4,17 @@
 
 {% block content %}
 
-<h2>Käyttäjä: {{ user.username }}</h2>
+<div class="header">
+  <h2>Käyttäjä: {{ user.username }}</h2>
+</div>
+<div class="img">
+  {% if user.has_image %}
+  <img src="/image/{{ user.id }}" /> </div> </br>
+  {% endif %}
+</div>
+{% if session.user_id %}
+    <a href="/add_image">Vaihda profiilikuva</a>
+{% endif %}
 <p>
   Käyttäjä on lisännyt tiedot yhteensä {{ exhibitions | count }} näyttelystä.
 </p>

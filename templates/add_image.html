@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Profiilikuvan lisäys{% endblock %}
+
+{% block content %}
+<div class="header">
+  <h2>Profiilikuvan lisäys</h2>
+</div>
+<div class="comment">  
+  <form action="/add_image" method="post" enctype="multipart/form-data">
+    <p>
+      Kuva: <input type="file" name="image" accept=".jpg" />
+    </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Lähetä" />
+  </form>
+</div>
+<a href="/">Takaisin</a>
+{% endblock %}

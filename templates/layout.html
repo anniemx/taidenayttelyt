@@ -17,6 +17,7 @@
         <li><a class="nav_box" href="/find_exhibition">Etsi näyttely</a></li>
         {% if session.user_id %}
         <li><a class="nav_box" href="/new_exhibition">Uusi näyttely</a></li>
+        <li><a class="nav_box" href="/user/{{ session.user_id }}">Oma profiili</a></li>
         <li><a class="nav_box" href="/logout">Kirjaudu ulos</a></li>
         {% else %}
         <li><a class="nav_box" href="/login">Kirjaudu sisään</a></li>

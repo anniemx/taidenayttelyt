@@ -1,6 +1,6 @@
 import sqlite3, secrets
 from flask import Flask, flash
-from flask import abort, redirect, render_template, request, session
+from flask import abort, make_response, redirect, render_template, request, session
 import config
 import exhibitions
 import re
@@ -278,6 +278,39 @@ def create():
 
     flash("Tunnus luotu")
     return redirect("/login")
+
+@app.route("/add_image", methods=["GET", "POST"])
+def add_image():
+    require_login()
+
+    if request.method == "GET":
+        return render_template("add_image.html")
+
+    if request.method == "POST":
+        check_csrf()
+        file = request.files["image"]
+        if not file.filename.endswith(".jpg"):
+            flash("VIRHE: väärä tiedostomuoto")
+            return redirect("/add_image")
+
+        image = file.read()
+        if len(image) > 100 * 1024:
+            flash("VIRHE: liian suuri kuva")
+            return redirect("/add_image")
+
+        user_id = session["user_id"]
+        users.update_image(user_id, image)
+        return redirect("/user/" + str(user_id))
+
+@app.route("/image/<int:user_id>")
+def show_image(user_id):
+    image = users.get_image(user_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
