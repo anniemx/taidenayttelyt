@@ -136,4 +136,3 @@ def average_score(exhibition_id):
     sql = "SELECT AVG(evaluation) FROM comments WHERE exhibition_id = ?"
     score = db.query(sql, [exhibition_id])
     return score[0][0] if score else 0
-

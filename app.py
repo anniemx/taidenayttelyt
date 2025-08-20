@@ -63,7 +63,7 @@ def show_exhibition(exhibition_id):
     comments = exhibitions.get_comments(exhibition_id)
     score = exhibitions.average_score(exhibition_id)
     if score is not None:
-        score = "{:.2f}".format(score)
+        score = f"{score:.2f}"
     else:
         score = 0
     return render_template("show_reviews.html", exhibition=exhibition, classes=classes,
@@ -90,7 +90,10 @@ def create_exhibition():
     if not place or len(place) > 50:
         abort(403)
     time = request.form["time"]
-    date_format = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+    date_format = (
+        r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-"
+        r"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+    )
     if not re.search(date_format, time):
         abort(403)
     location = request.form["location"]
@@ -156,7 +159,10 @@ def update_exhibition():
     if not place or len(place) > 50:
         abort(403)
     time = request.form["time"]
-    date_format = r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+    date_format = (
+        r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}-"
+        r"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$"
+    )
     if not re.search(date_format, time):
         abort(403)
     location = request.form["location"]
