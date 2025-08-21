@@ -334,7 +334,7 @@ def show_image(user_id):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", username="")
 
     if request.method == "POST":
         username = request.form["username"]
@@ -347,7 +347,7 @@ def login():
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         flash("VIRHE: väärä tunnus tai salasana")
-        return redirect("/login")
+        return render_template("login.html", username=username)
 
 @app.route("/logout")
 def logout():
