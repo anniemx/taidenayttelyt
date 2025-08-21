@@ -21,11 +21,11 @@
     </p>
     <p>Arvosana:</p>
     <p>
-      <input type="radio" name="evaluation" value="1" required /> *
-      <input type="radio" name="evaluation" value="2" /> **
-      <input type="radio" name="evaluation" value="3" /> ***
-      <input type="radio" name="evaluation" value="4" /> ****
-      <input type="radio" name="evaluation" value="5" /> *****
+      <input type="radio" name="evaluation" value="1" {% if comment.evaluation == 1 %}checked{% endif %} required /> *
+      <input type="radio" name="evaluation" value="2" {% if comment.evaluation == 2 %}checked{% endif %} required /> **
+      <input type="radio" name="evaluation" value="3" {% if comment.evaluation == 3 %}checked{% endif %} required /> ***
+      <input type="radio" name="evaluation" value="4" {% if comment.evaluation == 4 %}checked{% endif %} required /> ****
+      <input type="radio" name="evaluation" value="5" {% if comment.evaluation == 5 %}checked{% endif %} required /> *****
     </p>
     <input type="submit" value="Päivitä arvio" />
   </form>
