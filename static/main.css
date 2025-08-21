@@ -49,6 +49,7 @@ nav li:not(:first-of-type) {
   color: #81b29a;
   border-radius: 15px;
   text-align: left;
+  overflow-wrap: break-word;
 }
 
 .exhibition_infobar {
@@ -58,6 +59,7 @@ nav li:not(:first-of-type) {
   color: #f4f1de;
   border-radius: 15px;
   text-align: left;
+  overflow-wrap: break-word;
 }
 
 .comment {
@@ -67,6 +69,8 @@ nav li:not(:first-of-type) {
   color: #3d405b;
   border-radius: 15px;
   text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .info {
