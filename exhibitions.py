@@ -1,5 +1,13 @@
 import db
 
+def exhibition_count():
+    sql = "SELECT COUNT(*) FROM exhibitions"
+    return db.query(sql)[0][0]
+
+def comment_count(exhibition_id):
+    sql = "SELECT COUNT(*) FROM comments WHERE exhibition_id = ?"
+    return db.query(sql, [exhibition_id])[0][0]
+
 def get_all_classes():
     sql = "SELECT title, value FROM classes ORDER BY id"
     result = db.query(sql)
@@ -25,12 +33,15 @@ def get_classes(exhibition_id):
     sql = "SELECT title, value FROM exhibition_classes WHERE exhibition_id = ?"
     return db.query(sql, [exhibition_id])
 
-def get_exhibitions():
+def get_exhibitions(page, page_size):
     sql = """SELECT exhibitions.id, exhibitions.title, users.id user_id, users.username
              FROM exhibitions, users
              WHERE exhibitions.user_id = users.id
-             ORDER BY exhibitions.id DESC"""
-    return db.query(sql)
+             ORDER BY exhibitions.id DESC
+             LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
 
 def get_exhibition(exhibition_id):
     sql = """SELECT exhibitions.id,
@@ -93,7 +104,7 @@ def add_comment(title, content, user_id, evaluation, exhibition_id):
              VALUES (?, ?, datetime('now'), ?, ?, ?)"""
     db.execute(sql, [title, content, user_id, evaluation, exhibition_id])
 
-def get_comments(exhibition_id):
+def get_comments(exhibition_id, page, page_size):
     sql = """SELECT comments.id,
                     comments.title,
                     comments.content,
@@ -105,8 +116,11 @@ def get_comments(exhibition_id):
                     users.username
              FROM comments, users
              WHERE comments.exhibition_id = ? AND comments.user_id = users.id
-             ORDER BY comments.id DESC"""
-    return db.query(sql, [exhibition_id])
+             ORDER BY comments.id DESC
+             LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [exhibition_id, limit, offset])
 
 def get_comment(comment_id):
     sql = """SELECT comments.id,

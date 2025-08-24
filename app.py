@@ -1,6 +1,7 @@
 import re
 import secrets
 import sqlite3
+import math
 
 from flask import Flask, flash
 from flask import abort, make_response, redirect, render_template, request, session
@@ -30,9 +31,20 @@ def show_lines(content):
     return markupsafe.Markup(content)
 
 @app.route("/")
-def index():
-    all_exhibitions = exhibitions.get_exhibitions()
-    return render_template("index.html", exhibitions=all_exhibitions)
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10
+    exhibition_count = exhibitions.exhibition_count()
+    page_count = math.ceil(exhibition_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+    all_exhibitions = exhibitions.get_exhibitions(page, page_size)
+    return render_template("index.html", page=page, page_count=page_count, exhibitions=all_exhibitions)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -55,19 +67,31 @@ def find_exhibition():
     return render_template("find_exhibition.html", query=query, results=results)
 
 @app.route("/exhibition/<int:exhibition_id>")
-def show_exhibition(exhibition_id):
+@app.route("/exhibition/<int:exhibition_id>/<int:page>")
+def show_exhibition(exhibition_id, page=1):
     exhibition = exhibitions.get_exhibition(exhibition_id)
     if not exhibition:
         abort(404)
     classes = exhibitions.get_classes(exhibition_id)
-    comments = exhibitions.get_comments(exhibition_id)
+
+    page_size = 10
+    comment_count = exhibitions.comment_count(exhibition_id)
+    page_count = math.ceil(comment_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/exhibition/"+ str(exhibition_id) + "/1")
+    if page > page_count:
+        return redirect("/exhibition/"+ str(exhibition_id) + "/" + str(page_count))
+
+    comments = exhibitions.get_comments(exhibition_id, page, page_size)
     score = exhibitions.average_score(exhibition_id)
     if score is not None:
         score = f"{score:.2f}"
     else:
         score = 0
     return render_template("show_reviews.html", exhibition=exhibition, classes=classes,
-                            comments=comments, score=score)
+                           comments=comments, score=score, page=page, page_count=page_count)
 
 @app.route("/new_exhibition")
 def new_exhibition():
