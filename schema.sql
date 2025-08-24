@@ -37,3 +37,5 @@ CREATE TABLE comments (
     evaluation INTEGER,
     exhibition_id INTEGER REFERENCES exhibitions
 );
+
+CREATE INDEX idx_exhibitions_comments ON comments (exhibition_id);
