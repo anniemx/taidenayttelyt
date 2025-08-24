@@ -17,8 +17,10 @@ for i in range(1, user_count + 1):
 
 for i in range(1, exhibition_count + 1):
     user_id = random.randint(1, user_count)
-    db.execute("INSERT INTO exhibitions (title, place, time, location, description, user_id) VALUES (?, ?, ?, ?, ?, ?)",
-               ["exhibition" + str(i), "place"+ str(i), "25.05.2025", "location"+ str(i), "description"+ str(i), user_id])
+    db.execute("""INSERT INTO exhibitions (title, place, time, location, description, user_id) 
+                  VALUES (?, ?, ?, ?, ?, ?)""",
+               ["exhibition" + str(i), "place"+ str(i), "25.05.2025", 
+                "location"+ str(i), "description"+ str(i), user_id])
 
 
 for i in range(1, comment_count + 1):
