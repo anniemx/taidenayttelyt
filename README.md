@@ -32,3 +32,14 @@ Käynnistä sovellus näin:
 ```
 $ flask run
 ```
+
+Testaukset suurilla tietomäärillä:
+
+Ensimmäisellä kerralla suurella tietomäärällä seed.py testatessa pisimpään pyyntö kesti 0.14s. Pyyntö oli näyttelyn numero 100000 tietojen hakeminen ja näyttäminen. 
+
+Kun tietomäärää kasvatettiin:
+* thread_count = 10**6
+* message_count = 10**7
+niin pisimmillään pyyntö kesti 0.15, kun sovellus etsi tiedot näyttelystä id-numerolla 99950. 
+
+Indeksien lisäämisen (CREATE INDEX idx_exhibitions_comments ON comments (exhibition_id);) jälkeen pisin pyyntö oli vain 0.1s, eikä eri tyyppiset pyynnöt eronneet ajassa toisistaan. 
