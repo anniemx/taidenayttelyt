@@ -101,7 +101,7 @@ def check_title(query):
 
 def add_comment(title, content, user_id, evaluation, exhibition_id):
     sql = """INSERT INTO comments (title, content, sent_at, user_id, evaluation, exhibition_id)
-             VALUES (?, ?, datetime('now'), ?, ?, ?)"""
+             VALUES (?, ?, datetime("now"), ?, ?, ?)"""
     db.execute(sql, [title, content, user_id, evaluation, exhibition_id])
 
 def get_comments(exhibition_id, page, page_size):
