@@ -5,6 +5,7 @@ body {
   background-color: #f4f1de;
   background: #ffffff;
   color: #3d405b;
+  text-align: center;
 }
 
 .header {
@@ -94,5 +95,8 @@ a:hover {
 }
 
 img {
-  border-radius: 25%;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
 }
