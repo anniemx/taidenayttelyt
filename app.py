@@ -313,13 +313,32 @@ def register():
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
-    if not username or len(username) > 50:
-        flash("VIRHE: käyttäjätunnus on tyhjä tai liian pitkä")
+    if len(username) < 4 or len(username) > 50:
+        flash("VIRHE: käyttäjätunnus on liian lyhyt tai pitkä")
         return redirect("/register")
+    username_error = re.search(r"[a-z]", username) is None
+    if username_error:
+        flash("VIRHE: käyttäjätunnuksessa on oltava kirjaimia")
+        return redirect("/register")
+
     password1 = request.form["password1"]
     if not password1:
         flash("VIRHE: salasana ei voi olla tyhjä")
         return redirect("/register")
+
+    if len(password1) < 8 or len(password1) > 50:
+        flash("VIRHE: Salasanan pituus ei täytä vaatimuksia")
+        return redirect("/register")
+
+    digit = re.search(r"\d", password1) is None
+    uppercase = re.search(r"[A-Z]", password1) is None
+    lowercase = re.search(r"[a-z]", password1) is None
+    symbol = re.search(r"[ !#$%&'()*+,\-./\[\]^_`{}~\"]", password1) is None
+
+    if digit or uppercase or lowercase or symbol:
+        flash("VIRHE: Salasana on liian heikko")
+        return redirect("/register")
+
     password2 = request.form["password2"]
     if password1 != password2:
         flash("VIRHE: salasanat eivät ole samat")

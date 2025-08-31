@@ -10,11 +10,18 @@
   <form action="/create" method="post">
     <p>
       <label for="username">Tunnus</label>: <br />
-      <input type="text" name="username" id="username" maxlength="50" required />
+      <input type="text" name="username" id="username" minlength="4" maxlength="50" required />
     </p>
     <p>
+      <p>Salasanassa tulee olla:</p>
+      <ul>
+        <li>Pieniä ja isoja kirjaimia</li>
+        <li>Numeroita</li>
+        <li>Erikoismerkkejä: !#$%&'()*+,\-./\[\]^_`{}~\"]</li>
+        <li>8-50 merkkiä</li>
+      </ul>
       <label for="password1">Salasana</label>: <br />
-      <input type="password" name="password1" id="password1" maxlength="50" required />
+      <input type="password" name="password1" id="password1" minlength="8" maxlength="50" required />
     </p>
     <p>
       <label for="password2">Salasana uudestaan</label>: <br />
